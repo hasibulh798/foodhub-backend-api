@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Provider_profile {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  // user         User     @relation(fields: [userId], references: [id])
+  businessName String   @db.VarChar(255)
+  address      String   @db.VarChar(255)
+  isVerified   Boolean  @default(false)
+  logoUrl      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders       Order[]
+  meals        Meal[]
+
+  @@map("provider_profiles")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique @db.VarChar(100)
+  isActive  Boolean  @default(true)
+  meals     Meal[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
+}
+
+model Meal {
+  id          String           @id @default(uuid())
+  provider    Provider_profile @relation(fields: [providerId], references: [id])
+  providerId  String
+  category    Category         @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  name        String           @db.VarChar(150)
+  description String           @db.Text
+  price       Decimal          @db.Decimal(10, 2)
+  isAvailable Boolean          @default(true)
+  imageUrl    String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  order_items Order_item[]
+  reviews     Review[]
+
+  @@index([providerId])
+  @@map("meals")
+}
+
+model Order {
+  id         String           @id @default(uuid())
+  // customer   User             @relation(fields: [customerId], references: [id])
+  customerId String
+  provider   Provider_profile @relation(fields: [providerId], references: [id])
+  providerId String
+  orderItems Order_item[]
+  totalPrice Decimal          @db.Decimal(10, 2)
+  status     OrderStatus      @default(PENDING)
+  deliveryAddress String       @db.VarChar(255)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  reviews    Review[]
+
+  @@index([customerId])
+  @@map("orders")
+}
+
+enum OrderStatus {
+  PENDING
+  IN_PROGRESS
+  DELIVERED
+  CANCELLED
+}
+
+model Order_item {
+  id        String   @id @default(uuid())
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   String
+  meal      Meal     @relation(fields: [mealId], references: [id])
+  mealId    String
+  quantity  Int      @default(1)
+  price     Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  orderId    String
+  customerId String
+  mealId     String
+  rating     Int
+  comment    String?  @db.Text
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  order    Order @relation(fields: [orderId], references: [id])
+  meal     Meal  @relation(fields: [mealId], references: [id])
+  // customer User  @relation(fields: [customerId], references: [id])
+
+  @@unique([orderId, mealId])
+  @@index([customerId])
+  @@index([mealId])
+  @@map("reviews")
+}
