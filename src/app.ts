@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import { auth } from "./lib/auth";
 import { providerRoutes } from "./module/provider/provider.route";
+import { adminRoutes } from "./module/admin/admin.route";
 
 const app = express();
 
@@ -25,5 +26,8 @@ app.get("/", (_, res) => {
 
 // provider routes
 app.use("/api/providers", providerRoutes);
+
+// Admin routes
+app.use("/api/admin", adminRoutes);
 
 export default app;
