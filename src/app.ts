@@ -2,8 +2,9 @@ import { toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import express from "express";
 import { auth } from "./lib/auth";
-import { providerRoutes } from "./module/provider/provider.route";
 import { adminRoutes } from "./module/admin/admin.route";
+import { providerProfileRoutes } from "./module/provider-profile/providerProfile.route";
+import { ProviderRoutes } from "./module/provider/provider.route";
 
 const app = express();
 
@@ -24,10 +25,13 @@ app.get("/", (_, res) => {
   res.send("Hello from the food hub api!");
 });
 
-// provider routes
-app.use("/api/providers", providerRoutes);
+// providerProfile routes
+app.use("/api/providers", providerProfileRoutes);
 
 // Admin routes
 app.use("/api/admin", adminRoutes);
+
+// Provider Specific routes
+app.use("/api/provider", ProviderRoutes);
 
 export default app;

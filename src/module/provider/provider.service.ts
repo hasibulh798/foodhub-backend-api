@@ -1,141 +1,234 @@
-import { UserRole } from "../../../generated/prisma/enums";
-import { auth } from "../../lib/auth";
+import {
+  OrderStatus,
+  Prisma,
+  UserRole,
+} from "../../../generated/prisma/client";
 import { prisma } from "../../lib/prisma";
 
-// create Provider
-const createProvider = async (payload: {
-  name: string;
-  email: string;
-  password: string;
-  phone?: string;
-  businessName: string;
-  address: string;
-  logoUrl?: string;
-}) => {
-  const { name, email, password, phone, businessName, address, logoUrl } =
-    payload;
+// Create meal
+const createMeal = async (
+  payload: {
+    categoryId: string;
+    name: string;
+    description: string;
+    price: Prisma.Decimal;
+    imageUrl: string;
+  },
+  userId: string,
+) => {
+  const { name, description, price, categoryId, imageUrl } = payload;
 
-  const user = await prisma.user.findUnique({
-    where: { email },
+  const provider = await prisma.provider_profile.findUnique({
+    where: {
+      userId,
+    },
     include: {
-      providerProfiles: true,
+      user: true,
     },
   });
-
-  if (user && !user.providerProfiles) {
-    const providerProfile = await prisma.provider_profile.create({
-      data: {
-        businessName,
-        address,
-        logoUrl: logoUrl || null,
-        userId: user.id,
-      },
-    });
-
-    return providerProfile;
-  } else {
-    const createdUser = await auth.api.signUpEmail({
-      body: {
-        name,
-        email,
-        password,
-        phone,
-        role: UserRole.PROVIDER,
-      },
-    });
-    let userId;
-
-    userId = createdUser.user.id;
-
-    const providerProfile = await prisma.provider_profile.create({
-      data: {
-        businessName,
-        address,
-        logoUrl: logoUrl || null,
-        userId,
-      },
-    });
-    console.log(providerProfile);
-    return providerProfile;
+  // console.log(provider);
+  if (!provider) {
+    throw new Error("You are not provider!");
   }
-};
 
-// get all providers
-const getAllProvider = async () => {
-  const result = await prisma.provider_profile.findMany({
-    include: {
-      _count: {
-        select: {
-          meals: true,
-        },
-      },
+  if (provider.user?.role !== UserRole.PROVIDER) {
+    throw new Error("Permission denied!");
+  }
+  // console.log("before result");
+  // console.log(payload);
+  const result = await prisma.meal.create({
+    data: {
+      providerId: provider.id,
+      categoryId,
+      name,
+      description,
+      price,
+      imageUrl,
     },
   });
 
+  // console.log("after result");
+  // console.log(result);
   return result;
 };
 
-// get single provider
-const getSingleProvider = async (providerId: string) => {
+//Update meal
+const updateMeal = async (
+  payload: {
+    name: string;
+    description: string;
+    imageUrl: string;
+    price: Prisma.Decimal;
+    isAvailable: boolean;
+  },
+  mealId: string,
+  userId: string,
+) => {
   const provider = await prisma.provider_profile.findUnique({
     where: {
-      id: providerId,
+      userId,
     },
     include: {
-      meals: true,
-      orders: {
-        include: {
-          reviews: true,
-        },
-      },
+      user: true,
     },
   });
 
-  return {
-    provider,
-    totalMeals: provider?.meals.length,
-    totalOrder: provider?.orders.length,
-  };
+  if (!provider) {
+    throw new Error("You are not provider!");
+  }
+
+  if (provider.user?.role !== UserRole.PROVIDER) {
+    throw new Error("Permission denied!");
+  }
+  const meal = await prisma.meal.findUnique({
+    where: {
+      id: mealId,
+    },
+  });
+  if (!meal) {
+    throw new Error("Meal not found");
+  }
+  const result = await prisma.meal.update({
+    where: {
+      id: mealId,
+    },
+    data: payload,
+  });
+  return result;
 };
 
-// updateProviderProfile
-const updateProviderProfile = async (
-  payload: {
-    businessName: string;
-    address: string;
-    logoUrl: string;
-  },
-  providerId: string,
-) => {
-  const { businessName, address, logoUrl } = payload;
+// Delete meal
+const deleteMeal = async (mealId: string, userId: string) => {
   const provider = await prisma.provider_profile.findUnique({
     where: {
-      id: providerId,
+      userId,
+    },
+    include: {
+      user: true,
     },
   });
-  if (!provider) {
-    throw new Error("Provider not found");
+
+  if (provider?.user.role !== UserRole.PROVIDER) {
+    throw new Error("You are not provider!");
   }
-  const result = await prisma.provider_profile.update({
+
+  const result = await prisma.meal.delete({
     where: {
-      id: providerId,
+      id: mealId,
+    },
+  });
+  return result;
+};
+
+//Update Order Status
+
+const updateOrderStatus = async (
+  orderId: string,
+  userId: string,
+  status: OrderStatus,
+) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const order = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+  });
+
+  if (!order) {
+    throw new Error("Order not found");
+  }
+  const provider = await prisma.provider_profile.findUnique({
+    where: {
+      userId,
+    },
+  });
+  if (user.role !== UserRole.PROVIDER || order.providerId !== provider?.id) {
+    throw new Error("You are not Provider of this order");
+  }
+  const result = await prisma.order.update({
+    where: {
+      id: orderId,
     },
     data: {
-      businessName,
-      address,
-      logoUrl,
+      status,
     },
   });
   return result;
 };
 
 
+//Cancel order
+const cancelOrder = async (orderId: string, userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
 
+  if (!user) {
+    throw new Error("User not found");
+  }
 
+  const order = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+  });
 
-export const providerServices = {
-  createProvider,
-  getAllProvider,
-  getSingleProvider,
-  updateProviderProfile,
+  if (!order) {
+    throw new Error("Order not found");
+  }
+
+  if (user.role === UserRole.CUSTOMER) {
+    if (order.customerId !== user.id) {
+      throw new Error("Forbidden");
+    }
+
+    if (order.status !== OrderStatus.PENDING) {
+      throw new Error("Customer can only cancel pending orders");
+    }
+  }
+
+  if (user.role === UserRole.PROVIDER) {
+    const provider = await prisma.provider_profile.findUnique({
+      where: { userId: user.id },
+    });
+
+    if (!provider || order.providerId !== provider.id) {
+      throw new Error("Forbidden");
+    }
+
+    if (order.status === OrderStatus.DELIVERED) {
+      throw new Error("Cannot cancel. completed order");
+    }
+    if (order.status === OrderStatus.CANCELLED) {
+      throw new Error("Order is already cancelled");
+    }
+  }
+  const result = await prisma.order.update({
+    where: {
+      id: orderId,
+    },
+    data: {
+      status: OrderStatus.CANCELLED,
+    },
+  });
+
+  return result;
+};
+export const providerService = {
+  createMeal,
+  updateMeal,
+  deleteMeal,
+  updateOrderStatus,
+  cancelOrder
 };
