@@ -62,7 +62,64 @@ const getAllProvider = async (req: Request, res: Response) => {
   }
 };
 
+// get single provider
+const getSingleProvider = async (req: Request, res: Response) => {
+  try {
+    const { providerId } = req.params;
+    const result = await providerServices.getSingleProvider(
+      providerId as string,
+    );
+
+    if (result === null) {
+      return sendResponse({
+        res,
+        statusCode: 404,
+        success: false,
+        message: "Provider not found",
+      });
+    }
+    return sendResponse({
+      res,
+      statusCode: 201,
+      success: true,
+      message: "Provider retrived successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    return sendResponse({
+      res,
+      statusCode: 500,
+      success: false,
+      message: error.message || "Failed to retrived Provider.",
+    });
+  }
+};
+
+// update provider orofile
+const updateProviderProfile = async (req: Request, res: Response) => {
+  try {
+    const { providerId } = req.params;
+    const result = await providerServices.updateProviderProfile(
+      req.body,
+      providerId as string,
+    );
+
+    return res.json({
+      success: true,
+      message: "Provider Profile updated successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update provider",
+      error: error.message,
+    });
+  }
+};
 export const providerController = {
   createProvider,
   getAllProvider,
+  getSingleProvider,
+  updateProviderProfile,
 };

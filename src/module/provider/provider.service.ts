@@ -64,9 +64,9 @@ const createProvider = async (payload: {
 const getAllProvider = async () => {
   const result = await prisma.provider_profile.findMany({
     include: {
-      meals: {
-        orderBy: {
-          createdAt: "desc",
+      _count: {
+        select: {
+          meals: true,
         },
       },
     },
@@ -75,7 +75,63 @@ const getAllProvider = async () => {
   return result;
 };
 
+// get single provider
+const getSingleProvider = async (providerId: string) => {
+  const provider = await prisma.provider_profile.findUnique({
+    where: {
+      id: providerId,
+    },
+    include: {
+      meals: true,
+      orders: {
+        include: {
+          reviews: true,
+        },
+      },
+    },
+  });
+
+  return {
+    provider,
+    totalMeals: provider?.meals.length,
+    totalOrder: provider?.orders.length,
+  };
+};
+
+// updateProviderProfile
+const updateProviderProfile = async (
+  payload: {
+    businessName: string;
+    address: string;
+    logoUrl: string;
+  },
+  providerId: string,
+) => {
+  const { businessName, address, logoUrl } = payload;
+  const provider = await prisma.provider_profile.findUnique({
+    where: {
+      id: providerId,
+    },
+  });
+  if (!provider) {
+    throw new Error("Provider not found");
+  }
+  const result = await prisma.provider_profile.update({
+    where: {
+      id: providerId,
+    },
+    data: {
+      businessName,
+      address,
+      logoUrl,
+    },
+  });
+  return result;
+};
+
 export const providerServices = {
   createProvider,
   getAllProvider,
+  getSingleProvider,
+  updateProviderProfile,
 };
