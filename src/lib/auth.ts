@@ -1,7 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import nodemailer from "nodemailer";
-
 import { userRoles, userStatuses } from "../types";
 import { prisma } from "./prisma";
 

@@ -18,7 +18,6 @@ model Provider_profile {
   updatedAt    DateTime @updatedAt
   meals        Meal[]
   orders       Order[]
-  // user        User    @relation(fields: [userId], references: [id])
   user         User     @relation(fields: [userId], references: [id])
 
   @@map("provider_profiles")
@@ -67,21 +66,11 @@ model Order {
   userId          String?
   orderItems      Order_item[]
   provider        Provider_profile @relation(fields: [providerId], references: [id])
-  // customer        User           @relation(fields: [customerId], references: [id])
-  reviews         Review[]
   user            User?            @relation(fields: [userId], references: [id])
+  reviews         Review[]
 
   @@index([customerId])
   @@map("orders")
-}
-
-enum OrderStatus {
-  PENDING
-  CONFIRMED
-  PREPARING
-  OUT_FOR_DELIVERY
-  DELIVERED
-  CANCELLED
 }
 
 model Order_item {
@@ -105,15 +94,13 @@ model Review {
   customerId String
   mealId     String
   rating     Int
-  comment    String?  @db.Text
+  comment    String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-
-  order  Order   @relation(fields: [orderId], references: [id])
-  meal   Meal    @relation(fields: [mealId], references: [id])
-  // customer User  @relation(fields: [customerId], references: [id])
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String?
+  userId     String?
+  meal       Meal     @relation(fields: [mealId], references: [id])
+  order      Order    @relation(fields: [orderId], references: [id])
+  user       User?    @relation(fields: [userId], references: [id])
 
   @@unique([orderId, mealId])
   @@index([customerId])
@@ -121,44 +108,10 @@ model Review {
   @@map("reviews")
 }
 
-model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-
-  role             UserRole           @default(CUSTOMER)
-  phone            String?
-  status           UserStatus?        @default(ACTIVE)
-  providerProfiles Provider_profile[]
-  orders           Order[]
-  reviews          Review[]
-
-  @@unique([email])
-  @@map("user")
-}
-
-enum UserRole {
-  CUSTOMER
-  PROVIDER
-  ADMIN
-}
-
-enum UserStatus {
-  ACTIVE
-  INACTIVE
-  SUSPENDED
-}
-
 model Session {
   id        String   @id
   expiresAt DateTime
-  token     String
+  token     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   ipAddress String?
@@ -166,7 +119,6 @@ model Session {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([token])
   @@index([userId])
   @@map("session")
 }
@@ -176,7 +128,6 @@ model Account {
   accountId             String
   providerId            String
   userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -186,6 +137,7 @@ model Account {
   password              String?
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("account")
@@ -201,4 +153,45 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model User {
+  id               String            @id
+  name             String
+  email            String            @unique
+  emailVerified    Boolean           @default(false)
+  image            String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime
+  role             UserRole          @default(CUSTOMER)
+  phone            String?
+  status           UserStatus?       @default(ACTIVE)
+  accounts         Account[]
+  orders           Order[]
+  providerProfiles Provider_profile?
+  reviews          Review[]
+  sessions         Session[]
+
+  @@map("users")
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+enum UserRole {
+  CUSTOMER
+  PROVIDER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
 }
