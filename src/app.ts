@@ -2,6 +2,7 @@ import { toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import express from "express";
 import { auth } from "./lib/auth";
+import { providerRoutes } from "./module/provider/provider.route";
 
 const app = express();
 
@@ -21,5 +22,8 @@ app.all("/api/auth/{*any}", toNodeHandler(auth));
 app.get("/", (_, res) => {
   res.send("Hello from the food hub api!");
 });
+
+// provider routes
+app.use("/api/providers", providerRoutes);
 
 export default app;

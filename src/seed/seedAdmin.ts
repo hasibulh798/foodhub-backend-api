@@ -29,7 +29,7 @@ const seedAdmin = async () => {
         body: JSON.stringify(adminData),
       },
     );
-    console.log("Admin seeding response status:", response);
+
     if (!response.ok) {
       throw new Error("Failed to create admin");
     }
@@ -41,8 +41,8 @@ const seedAdmin = async () => {
         emailVerified: true,
       },
     });
-  } catch (error) {
-    console.error("Error seeding admin:", error);
+  } catch (error: any) {
+    throw new Error("Error seeding admin:", error);
   }
-}
+};
 seedAdmin();
