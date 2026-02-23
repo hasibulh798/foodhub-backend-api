@@ -6,7 +6,7 @@ import {
 import { MealWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 
-// Create category
+// Create meal
 const createMeal = async (
   payload: {
     categoryId: string;
@@ -53,7 +53,7 @@ const createMeal = async (
   return result;
 };
 
-// // Get all category
+// Get all meals
 const getAllMeals = async (filter?: {
   search?: string | undefined;
   isAvailable?: boolean | undefined;
@@ -75,7 +75,8 @@ const getAllMeals = async (filter?: {
     limit,
   } = filter || {};
   const currentPage = page ?? 1;
-  const currentLimit = limit ?? 10;
+  const currentLimit = Number(limit) ?? 10;
+  const skip = (currentPage - 1) * currentLimit;
 
   const andConditions: MealWhereInput[] = [];
 
@@ -139,7 +140,7 @@ const getAllMeals = async (filter?: {
     where: {
       AND: andConditions,
     },
-    skip: (currentPage - 1) * currentLimit,
+    skip,
     take: currentLimit,
     orderBy: {
       price: "asc",
@@ -169,31 +170,31 @@ const getAllMeals = async (filter?: {
   return result;
 };
 
-// // Get single category
-// const getSingleMeal = async (mealId: string) => {
-//   const result = await prisma.meal.findUnique({
-//     where: {
-//       id: mealId,
-//     },
-//     include: {
-//       order_items: true,
-//       reviews: {
-//         select: {
-//           rating: true,
-//           comment: true,
-//           customer: {
-//             select: {
-//               name: true,
-//             },
-//           },
-//         },
-//       },
-//     },
-//   });
-//   return result;
-// };
+// Get single meal
+const getSingleMeal = async (mealId: string) => {
+  const result = await prisma.meal.findUnique({
+    where: {
+      id: mealId,
+    },
+    // include: {
+    //   order_items: true,
+    //   reviews: {
+    //     select: {
+    //       rating: true,
+    //       comment: true,
+    //       customer: {
+    //         select: {
+    //           name: true,
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
+  });
+  return result;
+};
 
-// //Update category
+// //Update meal
 // const updateMeal = async (
 //   payload: {
 //     name: string;
@@ -240,7 +241,7 @@ const getAllMeals = async (filter?: {
 //   return result;
 // };
 
-// // Delete category
+// // Delete meal
 // const deleteMeal = async (mealId: string, userId: string) => {
 //   const provider = await prisma.provider_profile.findUnique({
 //     where: {
@@ -266,7 +267,7 @@ const getAllMeals = async (filter?: {
 export const mealService = {
   // createMeal,
   getAllMeals,
-  // getSingleMeal,
+  getSingleMeal,
   // updateMeal,
   // deleteMeal,
 };

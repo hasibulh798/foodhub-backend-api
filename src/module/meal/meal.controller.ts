@@ -78,34 +78,34 @@ const getAllMeals = async (req: Request, res: Response) => {
   }
 };
 
-// // Get a single category
-// const getSingleMeal = async (req: Request, res: Response) => {
-//   try {
-//     const { mealId } = req.params;
-//     const result = await mealService.getSingleMeal(mealId as string);
+// Get a single meal
+const getSingleMeal = async (req: Request, res: Response) => {
+  try {
+    const { mealId } = req.params;
+    const result = await mealService.getSingleMeal(mealId as string);
 
-//     if (result === null) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "Meal not found",
-//       });
-//     }
-//     return res.json({
-//       success: true,
-//       message: "Meal retrieved successfully",
-//       data: result,
-//       totalOrders: result.order_items.length,
-//       totalReviews: result.reviews.length,
-//      averageRating: result.reviews.length > 0 ? result.reviews.reduce((acc, review) => acc + review.rating, 0) / result.reviews.length : null,
-//     });
-//   } catch (error: any) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "Failed to fetch meal.",
-//       error: error.message,
-//     });
-//   }
-// };
+    if (result === null) {
+      return res.status(404).json({
+        success: false,
+        message: "Meal not found",
+      });
+    }
+    return res.json({
+      success: true,
+      message: "Meal retrieved successfully",
+      data: result,
+    //   totalOrders: result.order_items.length,
+    //   totalReviews: result.reviews.length,
+    //  averageRating: result.reviews.length > 0 ? result.reviews.reduce((acc, review) => acc + review.rating, 0) / result.reviews.length : null,
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch meal.",
+      error: error.message,
+    });
+  }
+};
 
 // //Update category
 // const updateMeal = async (req: Request, res: Response) => {
@@ -160,7 +160,7 @@ const getAllMeals = async (req: Request, res: Response) => {
 export const mealController = {
   // createMeal,
   getAllMeals,
-  // getSingleMeal,
+  getSingleMeal,
   // updateMeal,
   // deleteMeal,
 };
