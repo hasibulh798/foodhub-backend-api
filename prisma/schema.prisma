@@ -43,6 +43,8 @@ model Meal {
   price       Decimal          @db.Decimal(10, 2)
   isAvailable Boolean          @default(true)
   imageUrl    String?
+  cuisine     String?
+  dietaryType DietaryType? 
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
   category    Category         @relation(fields: [categoryId], references: [id])
@@ -53,7 +55,11 @@ model Meal {
   @@index([providerId])
   @@map("meals")
 }
-
+enum DietaryType {
+  VEG
+  NON_VEG
+  VEGAN
+}
 model Order {
   id              String           @id @default(uuid())
   customerId      String

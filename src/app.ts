@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import { auth } from "./lib/auth";
 import { adminRoutes } from "./module/admin/admin.route";
+import { categoryRoutes } from "./module/category/categories.route";
 import { providerProfileRoutes } from "./module/provider-profile/providerProfile.route";
 import { ProviderRoutes } from "./module/provider/provider.route";
 
@@ -27,6 +28,9 @@ app.get("/", (_, res) => {
 
 // providerProfile routes
 app.use("/api/providers", providerProfileRoutes);
+
+// Categories routes
+app.use("/api/categories", categoryRoutes);
 
 // Admin routes
 app.use("/api/admin", adminRoutes);
