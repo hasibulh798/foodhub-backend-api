@@ -82,64 +82,64 @@ const getSingleCategory = async (req: Request, res: Response) => {
   }
 };
 
-// //Update category
-// const updateCategory = async (req: Request, res: Response) => {
-//   try {
-//     const { catId } = req.params;
-//     const userId = req.user?.id;
-//     const result = await categoryService.updateCategory(
-//       req.body,
-//       catId as string,
-//       userId as string,
-//     );
+//Update category
+const updateCategory = async (req: Request, res: Response) => {
+  try {
+    const { catId } = req.params;
+    const userId = req.user?.id;
+    const result = await categoryService.updateCategory(
+      req.body,
+      catId as string,
+      userId as string,
+    );
 
-//     if (result === null) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "category not found",
-//       });
-//     }
-//     return res.json({
-//       success: true,
-//       message: "Category updated successfully",
-//       data: result,
-//     });
-//   } catch (error: any) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "Failed to update category",
-//       error: error.message,
-//     });
-//   }
-// };
+    if (result === null) {
+      return res.status(404).json({
+        success: false,
+        message: "category not found",
+      });
+    }
+    return res.json({
+      success: true,
+      message: "Category updated successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update category",
+      error: error.message,
+    });
+  }
+};
 
-// // Delete category
-// const deleteCategory = async (req: Request, res: Response) => {
-//   try {
-//     const { catId } = req.params;
-//     const userId = req.user?.id;
-//     const result = await categoryService.deleteCategory(
-//       catId as string,
-//       userId as string,
-//     );
+// Delete category
+const deleteCategory = async (req: Request, res: Response) => {
+  try {
+    const { catId } = req.params;
+    const userId = req.user?.id;
+    const result = await categoryService.deleteCategory(
+      catId as string,
+      userId as string,
+    );
 
-//     return res.json({
-//       success: true,
-//       message: "Category deleted successfully",
-//     });
-//   } catch (error: any) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "Failed to delete category",
-//       error: error.message,
-//     });
-//   }
-// };
+    return res.json({
+      success: true,
+      message: "Category deleted successfully",
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete category",
+      error: error.message,
+    });
+  }
+};
 
 export const categoryController = {
   createCategory,
   getAllCategory,
   getSingleCategory,
-  // updateCategory,
-  // deleteCategory,
+  updateCategory,
+  deleteCategory,
 };

@@ -13,15 +13,15 @@ router.get(
   auth(UserRole.ADMIN, UserRole.PROVIDER),
   categoryController.getSingleCategory,
 );
-// router.patch(
-//   "/:catId",
-//   auth(UserRole.ADMIN),
-//   categoryController.updateCategory,
-// );
-// router.delete(
-//   "/:catId",
-//   auth(UserRole.ADMIN),
-//   categoryController.deleteCategory,
-// );
+router.patch(
+  "/:catId",
+  auth(UserRole.ADMIN),
+  categoryController.updateCategory,
+);
+router.delete(
+  "/:catId",
+  auth(UserRole.ADMIN),
+  categoryController.deleteCategory,
+);
 
 export const categoryRoutes = router;

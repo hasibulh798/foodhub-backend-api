@@ -49,48 +49,48 @@ const getSingleCategory = async (catId: string, userId: string) => {
   return result;
 };
 
-// //Update category
-// const updateCategory = async (
-//   payload: { name: string },
-//   catId: string,
-//   userId: string,
-// ) => {
-//   const user = await prisma.user.findUnique({ where: { id: userId } });
-//   if (user?.role !== "ADMIN") {
-//     throw new Error("Permission denied!");
-//   }
+//Update category
+const updateCategory = async (
+  payload: { name: string },
+  catId: string,
+  userId: string,
+) => {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (user?.role !== "ADMIN") {
+    throw new Error("Permission denied!");
+  }
 
-//   const result = await prisma.category.update({
-//     where: {
-//       id: catId,
-//     },
-//     data: {
-//       name: payload.name,
-//     },
-//   });
+  const result = await prisma.category.update({
+    where: {
+      id: catId,
+    },
+    data: {
+      name: payload.name,
+    },
+  });
 
-//   return result;
-// };
+  return result;
+};
 
-// // Delete category
-// const deleteCategory = async (catId: string, userId: string) => {
-//   const user = await prisma.user.findUnique({ where: { id: userId } });
-//   if (user?.role !== "ADMIN") {
-//     throw new Error("Permission denied!");
-//   }
+// Delete category
+const deleteCategory = async (catId: string, userId: string) => {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (user?.role !== "ADMIN") {
+    throw new Error("Permission denied!");
+  }
 
-//   const result = await prisma.category.delete({
-//     where: {
-//       id: catId,
-//     },
-//   });
-//   return result;
-// };
+  const result = await prisma.category.delete({
+    where: {
+      id: catId,
+    },
+  });
+  return result;
+};
 
 export const categoryService = {
   createCategory,
   getAllCategory,
   getSingleCategory,
-  // updateCategory,
-  // deleteCategory,
+  updateCategory,
+  deleteCategory,
 };
