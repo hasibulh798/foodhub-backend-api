@@ -3,21 +3,25 @@ import { OrderStatus } from "../../../generated/prisma/enums";
 import { sendResponse } from "../../utils/sendResponse";
 import { providerService } from "./provider.service";
 
+// Create meal
 const createMeal = async (req: Request, res: Response) => {
   try {
     const userId = req.user?.id;
     const result = await providerService.createMeal(req.body, userId as string);
 
-    return res.json({
+    return sendResponse({
+      res,
+      statusCode: 201,
       success: true,
       message: "Meal created successfully",
       data: result,
     });
   } catch (error: any) {
-    return res.status(500).json({
+    return sendResponse({
+      res,
+      statusCode: 500,
       success: false,
-      message: "Failed to create meal",
-      error: error.message,
+      message: error.message || "Failed to create meal",
     });
   }
 };

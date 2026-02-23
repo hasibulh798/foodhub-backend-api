@@ -1,4 +1,5 @@
 import {
+  DietaryType,
   OrderStatus,
   Prisma,
   UserRole,
@@ -13,10 +14,20 @@ const createMeal = async (
     description: string;
     price: Prisma.Decimal;
     imageUrl: string;
+    cuisine?: string | undefined;
+    dietaryType?: DietaryType | undefined;
   },
   userId: string,
 ) => {
-  const { name, description, price, categoryId, imageUrl } = payload;
+  const {
+    name,
+    description,
+    price,
+    categoryId,
+    imageUrl,
+    cuisine,
+    dietaryType,
+  } = payload;
 
   const provider = await prisma.provider_profile.findUnique({
     where: {
@@ -38,12 +49,14 @@ const createMeal = async (
   // console.log(payload);
   const result = await prisma.meal.create({
     data: {
-      providerId: provider.id,
-      categoryId,
       name,
       description,
       price,
       imageUrl,
+      categoryId,
+      cuisine: cuisine ?? null,
+      dietaryType: dietaryType ?? null,
+      providerId: provider.id,
     },
   });
 
@@ -165,7 +178,6 @@ const updateOrderStatus = async (
   return result;
 };
 
-
 //Cancel order
 const cancelOrder = async (orderId: string, userId: string) => {
   const user = await prisma.user.findUnique({
@@ -230,5 +242,5 @@ export const providerService = {
   updateMeal,
   deleteMeal,
   updateOrderStatus,
-  cancelOrder
+  cancelOrder,
 };
