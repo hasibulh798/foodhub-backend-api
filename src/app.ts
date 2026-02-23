@@ -4,6 +4,7 @@ import express from "express";
 import { auth } from "./lib/auth";
 import { adminRoutes } from "./module/admin/admin.route";
 import { categoryRoutes } from "./module/category/categories.route";
+import { mealRoutes } from "./module/meal/meal.route";
 import { providerProfileRoutes } from "./module/provider-profile/providerProfile.route";
 import { ProviderRoutes } from "./module/provider/provider.route";
 
@@ -31,6 +32,9 @@ app.use("/api/providers", providerProfileRoutes);
 
 // Categories routes
 app.use("/api/categories", categoryRoutes);
+
+//Meals Routes
+app.use("/api/meals", mealRoutes);
 
 // Admin routes
 app.use("/api/admin", adminRoutes);

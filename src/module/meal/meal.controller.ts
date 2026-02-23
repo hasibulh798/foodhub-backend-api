@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { mealService } from "./meal.service";
 
-
 // Meal creation
 // const createMeal = async (req: Request, res: Response) => {
 //   try {
@@ -25,12 +24,39 @@ import { mealService } from "./meal.service";
 // //Get All Category
 const getAllMeals = async (req: Request, res: Response) => {
   try {
-    const { search, isAvailable } = req.query;
+    const {
+      search,
+      isAvailable,
+      cuisine,
+      dietaryType,
+      minPrice,
+      maxPrice,
+      page,
+      limit,
+    } = req.query;
+
+    console.log("page: ", page);
+    console.log("limit: ", limit);
+
     const searchString = search ? (search as string) : undefined;
-    const parsedIsAvailable = isAvailable === "true" ? true : isAvailable === "false" ? false : undefined;
-    
-    const result = await mealService.getAllMeals(
-      { search: searchString, isAvailable: parsedIsAvailable } as any,);
+
+    const parsedIsAvailable =
+      isAvailable === "true"
+        ? true
+        : isAvailable === "false"
+          ? false
+          : undefined;
+
+    const result = await mealService.getAllMeals({
+      search: searchString,
+      isAvailable: parsedIsAvailable,
+      cuisine,
+      dietaryType,
+      minPrice,
+      maxPrice,
+      page,
+      limit,
+    } as any);
 
     if (result === null) {
       return res.status(404).json({
@@ -70,7 +96,7 @@ const getAllMeals = async (req: Request, res: Response) => {
 //       data: result,
 //       totalOrders: result.order_items.length,
 //       totalReviews: result.reviews.length,
-//      averageRating: result.reviews.length > 0 ? result.reviews.reduce((acc, review) => acc + review.rating, 0) / result.reviews.length : null,  
+//      averageRating: result.reviews.length > 0 ? result.reviews.reduce((acc, review) => acc + review.rating, 0) / result.reviews.length : null,
 //     });
 //   } catch (error: any) {
 //     return res.status(500).json({

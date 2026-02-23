@@ -1,4 +1,8 @@
-import { Prisma, UserRole } from "../../../generated/prisma/client";
+import {
+  DietaryType,
+  Prisma,
+  UserRole,
+} from "../../../generated/prisma/client";
 import { MealWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 
@@ -50,11 +54,29 @@ const createMeal = async (
 };
 
 // // Get all category
-const getAllMeals = async (payload?: {
+const getAllMeals = async (filter?: {
   search?: string | undefined;
   isAvailable?: boolean | undefined;
+  cuisine?: string | undefined;
+  dietaryType?: DietaryType | undefined;
+  minPrice?: number | undefined;
+  maxPrice?: number | undefined;
+  page?: number;
+  limit?: number;
 }) => {
-  const { search, isAvailable } = payload || {};
+  const {
+    search,
+    isAvailable,
+    cuisine,
+    dietaryType,
+    minPrice,
+    maxPrice,
+    page,
+    limit,
+  } = filter || {};
+  const currentPage = page ?? 1;
+  const currentLimit = limit ?? 10;
+
   const andConditions: MealWhereInput[] = [];
 
   if (search) {
@@ -62,48 +84,86 @@ const getAllMeals = async (payload?: {
       OR: [
         {
           name: {
-            contains: payload?.search as string,
+            contains: search as string,
             mode: "insensitive",
           },
         },
         {
           description: {
-            contains: payload?.search as string,
+            contains: search as string,
             mode: "insensitive",
           },
         },
       ],
     });
   }
+
   if (isAvailable !== undefined) {
     andConditions.push({
       isAvailable: isAvailable,
     });
   }
+
+  if (cuisine) {
+    andConditions.push({
+      cuisine: {
+        equals: cuisine,
+        mode: "insensitive",
+      },
+    });
+  }
+
+  if (dietaryType !== undefined) {
+    andConditions.push({
+      dietaryType: dietaryType as DietaryType,
+    });
+  }
+
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    const priceFilter: any = {};
+
+    if (minPrice !== undefined) {
+      priceFilter.gte = Number(minPrice);
+    }
+
+    if (maxPrice !== undefined) {
+      priceFilter.lte = Number(maxPrice);
+    }
+
+    andConditions.push({
+      price: priceFilter,
+    });
+  }
+
   const result = await prisma.meal.findMany({
     where: {
       AND: andConditions,
     },
-    include: {
-      order_items: {
-        select: {
-          orderId: true,
-          quantity: true,
-          price: true,
-        },
-      },
-      reviews: {
-        select: {
-          rating: true,
-          comment: true,
-          customer: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      },
+    skip: (currentPage - 1) * currentLimit,
+    take: currentLimit,
+    orderBy: {
+      price: "asc",
     },
+    // include: {
+    //   order_items: {
+    //     select: {
+    //       orderId: true,
+    //       quantity: true,
+    //       price: true,
+    //     },
+    //   },
+    //   // reviews: {
+    //   //   select: {
+    //   //     rating: true,
+    //   //     comment: true,
+    //   //     customer: {
+    //   //       select: {
+    //   //         name: true,
+    //   //       },
+    //   //     },
+    //   //   },
+    //   // },
+    // },
   });
 
   return result;
