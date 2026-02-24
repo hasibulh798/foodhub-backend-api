@@ -2,6 +2,8 @@ import { toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import express from "express";
 import { auth } from "./lib/auth";
+import errorHandler from "./middleware/globalErrorHandlers";
+import { notFound } from "./middleware/notFound";
 import { adminRoutes } from "./modules/admin/admin.route";
 import { categoryRoutes } from "./modules/category/categories.route";
 import { mealRoutes } from "./modules/meal/meal.route";
@@ -49,5 +51,8 @@ app.use("/api/admin", adminRoutes);
 
 // Provider Specific routes
 app.use("/api/provider", ProviderRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 export default app;
