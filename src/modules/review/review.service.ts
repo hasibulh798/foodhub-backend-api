@@ -65,6 +65,21 @@ const getAllReviews = async (userId: string) => {
       where: {
         customerId: userId,
       },
+      include: {
+        meal: {
+          select: {
+            id: true,
+            name: true,
+            price: true,
+            provider: {
+              select: {
+                id: true,
+                businessName: true,
+              },
+            },
+          },
+        },
+      },
     });
     return reviews;
   } else if (user.role === UserRole.PROVIDER) {
@@ -109,6 +124,14 @@ const getAllReviews = async (userId: string) => {
             id: true,
             name: true,
           },
+          include: {
+            provider: {
+              select: {
+                id: true,
+                businessName: true,
+              },
+            },
+          },
         },
         customer: {
           select: {
@@ -125,65 +148,65 @@ const getAllReviews = async (userId: string) => {
   }
 };
 
-// // Get all reviews for a meal
-// const getMealReviews = async (mealId: string) => {
-//   const result = await prisma.review.findMany({
-//     where: {
-//       mealId,
-//     },
+// Get all reviews for a meal
+const getMealReviews = async (mealId: string) => {
+  const result = await prisma.review.findMany({
+    where: {
+      mealId,
+    },
 
-//     include: {
-//       customer: {
-//         select: {
-//           id: true,
-//           name: true,
-//         },
-//       },
-//       order: {
-//         select: {
-//           id: true,
-//           createdAt: true,
-//         },
-//       },
-//     },
-//   });
-//   return result;
-// };
+    include: {
+      customer: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      order: {
+        select: {
+          id: true,
+          createdAt: true,
+        },
+      },
+    },
+  });
+  return result;
+};
 
-// //Delete Review
-// const deleteReview = async (reviewId: string, userId: string) => {
-//   const user = await prisma.user.findUnique({
-//     where: {
-//       id: userId,
-//     },
-//   });
-//   if (!user) {
-//     throw new Error("user not found");
-//   }
-//   const review = await prisma.review.findUnique({
-//     where: {
-//       id: reviewId,
-//     },
-//   });
-//   if (!review) {
-//     throw new Error("Review not found");
-//   }
-//   const isAdmin = user.role === UserRole.ADMIN
-//   const owner = review.customerId === userId
-//   if (!isAdmin && !owner) {
-//     throw new Error("Forbidden!");
-//   }
-//   const result = await prisma.review.delete({
-//     where: {
-//       id: reviewId,
-//     },
-//   });
+//Delete Review
+const deleteReview = async (reviewId: string, userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+  if (!user) {
+    throw new Error("user not found");
+  }
+  const review = await prisma.review.findUnique({
+    where: {
+      id: reviewId,
+    },
+  });
+  if (!review) {
+    throw new Error("Review not found");
+  }
+  const isAdmin = user.role === UserRole.ADMIN;
+  const owner = review.customerId === userId;
+  if (!isAdmin && !owner) {
+    throw new Error("Forbidden!");
+  }
+  const result = await prisma.review.delete({
+    where: {
+      id: reviewId,
+    },
+  });
 
-//   return result;
-// };
+  return result;
+};
 export const reviewService = {
   createReview,
   getAllReviews,
-  // getMealReviews,
-  // deleteReview
+  getMealReviews,
+  deleteReview,
 };

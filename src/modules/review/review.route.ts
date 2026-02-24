@@ -15,12 +15,13 @@ router.get(
   reviewController.getAllReviews,
 );
 // Get all reviews for a meal
-// router.get("/", reviewController.getMealReviews);
+router.get("/", reviewController.getMealReviews);
 
-// //Delete a review
-// router.delete(
-//   "/:reviewId",
-//   auth(UserRole.CUSTOMER, UserRole.ADMIN),
-//   reviewController.deleteReview,
-// );
+//Delete a review
+router.delete(
+  "/:reviewId",
+  auth(UserRole.CUSTOMER, UserRole.ADMIN),
+  reviewController.deleteReview,
+);
+
 export const reviewRoutes = router;

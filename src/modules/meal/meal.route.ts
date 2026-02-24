@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { reviewRoutes } from "../review/review.route";
 import { mealController } from "./meal.controller";
 // import { reviewRoutes } from "../review/review.route";
 
@@ -10,5 +11,5 @@ const router = Router();
 router.get("/", mealController.getAllMeals);
 router.get("/:mealId", mealController.getSingleMeal);
 
-// router.use("/:mealId/reviews", reviewRoutes);
+router.use("/:mealId/reviews", reviewRoutes);
 export const mealRoutes = router;
