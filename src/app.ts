@@ -8,6 +8,7 @@ import { mealRoutes } from "./modules/meal/meal.route";
 import { orderRoutes } from "./modules/order/order.route";
 import { providerProfileRoutes } from "./modules/provider-profile/providerProfile.route";
 import { ProviderRoutes } from "./modules/provider/provider.route";
+import { reviewRoutes } from "./modules/review/review.route";
 
 const app = express();
 
@@ -39,6 +40,9 @@ app.use("/api/meals", mealRoutes);
 
 //Order routes
 app.use("/api/orders", orderRoutes);
+
+// Review routes
+app.use("/api/reviews", reviewRoutes);
 
 // Admin routes
 app.use("/api/admin", adminRoutes);
