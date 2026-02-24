@@ -6,7 +6,7 @@ import { categoryController } from "./categories.controller";
 const router = Router();
 
 // create provider
-router.post("/create", auth(UserRole.ADMIN), categoryController.createCategory);
+router.post("/", auth(UserRole.ADMIN), categoryController.createCategory);
 router.get("/", categoryController.getAllCategory);
 router.get(
   "/:catId",

@@ -6,7 +6,7 @@ import { providerController } from "./provider.controller";
 const router = Router();
 
 router.post(
-  "/meals/create",
+  "/meals",
   auth(UserRole.PROVIDER),
   providerController.createMeal,
 );
@@ -30,11 +30,6 @@ router.patch(
   providerController.updateOrderStatus,
 );
 
-//Cancelation Order
-router.patch(
-  "/orders/:orderId/cancel",
-  auth(UserRole.CUSTOMER, UserRole.PROVIDER, UserRole.ADMIN),
-  providerController.cancelOrder,
-);
+
 
 export const ProviderRoutes = router;

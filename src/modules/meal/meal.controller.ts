@@ -35,9 +35,6 @@ const getAllMeals = async (req: Request, res: Response) => {
       limit,
     } = req.query;
 
-    console.log("page: ", page);
-    console.log("limit: ", limit);
-
     const searchString = search ? (search as string) : undefined;
 
     const parsedIsAvailable =

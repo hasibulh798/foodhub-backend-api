@@ -74,8 +74,9 @@ const getAllMeals = async (filter?: {
     page,
     limit,
   } = filter || {};
-  const currentPage = page ?? 1;
-  const currentLimit = Number(limit) ?? 10;
+  const currentPage = Number(page) || 1;
+  const currentLimit = Number(limit) || 10;
+  // console.log("take: ", currentLimit);
   const skip = (currentPage - 1) * currentLimit;
 
   const andConditions: MealWhereInput[] = [];

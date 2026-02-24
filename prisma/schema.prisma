@@ -64,19 +64,26 @@ model Order {
   id              String           @id @default(uuid())
   customerId      String
   providerId      String
-  totalPrice      Decimal          @db.Decimal(10, 2)
+  phone           String
+  subtotal        Decimal          @db.Decimal(10, 2)
+  totalAmount     Decimal          @db.Decimal(10, 2)
+  paymentMethod   PaymentMethod    
   status          OrderStatus      @default(PENDING)
   deliveryAddress String           @db.VarChar(255)
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
-  userId          String?
   orderItems      Order_item[]
   provider        Provider_profile @relation(fields: [providerId], references: [id])
-  user            User?            @relation(fields: [userId], references: [id])
+  customer            User?            @relation(fields: [customerId], references: [id])
   reviews         Review[]
 
   @@index([customerId])
   @@map("orders")
+}
+
+enum PaymentMethod {
+  COD
+  ONLINE
 }
 
 model Order_item {

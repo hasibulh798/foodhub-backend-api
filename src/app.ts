@@ -2,11 +2,12 @@ import { toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import express from "express";
 import { auth } from "./lib/auth";
-import { adminRoutes } from "./module/admin/admin.route";
-import { categoryRoutes } from "./module/category/categories.route";
-import { mealRoutes } from "./module/meal/meal.route";
-import { providerProfileRoutes } from "./module/provider-profile/providerProfile.route";
-import { ProviderRoutes } from "./module/provider/provider.route";
+import { adminRoutes } from "./modules/admin/admin.route";
+import { categoryRoutes } from "./modules/category/categories.route";
+import { mealRoutes } from "./modules/meal/meal.route";
+import { orderRoutes } from "./modules/order/order.route";
+import { providerProfileRoutes } from "./modules/provider-profile/providerProfile.route";
+import { ProviderRoutes } from "./modules/provider/provider.route";
 
 const app = express();
 
@@ -35,6 +36,9 @@ app.use("/api/categories", categoryRoutes);
 
 //Meals Routes
 app.use("/api/meals", mealRoutes);
+
+//Order routes
+app.use("/api/orders", orderRoutes);
 
 // Admin routes
 app.use("/api/admin", adminRoutes);
