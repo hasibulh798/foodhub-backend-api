@@ -1,4 +1,8 @@
-import { PaymentMethod, UserRole } from "../../../generated/prisma/enums";
+import {
+  OrderStatus,
+  PaymentMethod,
+  UserRole,
+} from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 
 // Create Order
@@ -73,6 +77,7 @@ const createOrder = async (
       phone,
       paymentMethod,
       subtotal,
+      deliveryFee,
       totalAmount,
       orderItems: {
         create: orderItemsData,
@@ -103,7 +108,12 @@ const getAllOrders = async (userId: string) => {
       },
       include: {
         orderItems: true,
-        provider: true,
+        provider: {
+          select: {
+            businessName: true,
+            address: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -124,7 +134,12 @@ const getAllOrders = async (userId: string) => {
       },
       include: {
         orderItems: true,
-        customer: true,
+        customer: {
+          select: {
+            name: true,
+            phone: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -134,8 +149,20 @@ const getAllOrders = async (userId: string) => {
     orders = await prisma.order.findMany({
       include: {
         orderItems: true,
-        provider: true,
-        customer: true,
+        provider: {
+          select: {
+            businessName: true,
+            address: true,
+            meals: true,
+          },
+        },
+        customer: {
+          select: {
+            name: true,
+            email: true,
+            phone: true,
+          },
+        },
       },
     });
   } else {
@@ -144,57 +171,57 @@ const getAllOrders = async (userId: string) => {
   return orders;
 };
 
-// //Get single order
-// const getSingleOrder = async (orderId: string, userId: string) => {
-//   const user = await prisma.user.findUnique({
-//     where: {
-//       id: userId,
-//     },
-//   });
+//Get single order
+const getSingleOrder = async (orderId: string, userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
 
-//   const order = await prisma.order.findUnique({
-//     where: {
-//       id: orderId,
-//     },
-//     include: {
-//       orderItems: true,
-//       // customer: {
-//       //   select: {
-//       //     id: true,
-//       //     name: true,
-//       //   },
-//       // },
-//       provider: {
-//         select: {
-//           id: true,
-//           businessName: true,
-//         },
-//       },
-//     },
-//   });
+  const order = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+    include: {
+      orderItems: true,
+      customer: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      provider: {
+        select: {
+          id: true,
+          businessName: true,
+        },
+      },
+    },
+  });
 
-//   if (!order) {
-//     throw new Error("Order not found");
-//   }
+  if (!order) {
+    throw new Error("Order not found");
+  }
 
-//   if (user?.role === UserRole.CUSTOMER && order.customerId !== user.id) {
-//     throw new Error("Forbiden");
-//   }
-//   if (user?.role === UserRole.PROVIDER) {
-//     const provider = await prisma.provider_profile.findUnique({
-//       where: {
-//         userId,
-//       },
-//     });
-//     if (!provider || order.providerId !== provider.id) {
-//       throw new Error("Forbiden");
-//     }
-//   }
+  if (user?.role === UserRole.CUSTOMER && order.customerId !== user.id) {
+    throw new Error("Forbiden");
+  }
+  if (user?.role === UserRole.PROVIDER) {
+    const provider = await prisma.provider_profile.findUnique({
+      where: {
+        userId,
+      },
+    });
+    if (!provider || order.providerId !== provider.id) {
+      throw new Error("Forbiden");
+    }
+  }
 
-//   return order;
-// };
+  return order;
+};
 
-// // Update order
+// Update order
 // const updateOrderStatus = async (
 //   orderId: string,
 //   userId: string,
@@ -238,65 +265,66 @@ const getAllOrders = async (userId: string) => {
 //   return result;
 // };
 
-// //Cancel order
-// const cancelOrder = async (orderId: string, userId: string) => {
-//   const user = await prisma.user.findUnique({
-//     where: {
-//       id: userId,
-//     },
-//   });
+//Cancel order
+const cancelOrder = async (orderId: string, userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
 
-//   if (!user) {
-//     throw new Error("User not found");
-//   }
+  if (!user) {
+    throw new Error("User not found");
+  }
 
-//   const order = await prisma.order.findUnique({
-//     where: {
-//       id: orderId,
-//     },
-//   });
+  const order = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+  });
 
-//   if (!order) {
-//     throw new Error("Order not found");
-//   }
+  if (!order) {
+    throw new Error("Order not found");
+  }
 
-//   if (user.role === UserRole.CUSTOMER) {
-//     if (order.customerId !== user.id) {
-//       throw new Error("Forbidden");
-//     }
+  if (user.role === UserRole.CUSTOMER) {
+    if (order.customerId !== user.id) {
+      throw new Error("Forbidden");
+    }
 
-//     if (order.status !== OrderStatus.PENDING) {
-//       throw new Error("Customer can only cancel pending orders");
-//     }
-//   }
+    if (order.status !== OrderStatus.PENDING) {
+      throw new Error("Customer can only cancel pending orders");
+    }
+  }
 
-//   if (user.role === UserRole.PROVIDER) {
-//     const provider = await prisma.provider_profile.findUnique({
-//       where: { userId: user.id },
-//     });
+  if (user.role === UserRole.PROVIDER) {
+    const provider = await prisma.provider_profile.findUnique({
+      where: { userId: user.id },
+    });
 
-//     if (!provider || order.providerId !== provider.id) {
-//       throw new Error("Forbidden");
-//     }
+    if (!provider || order.providerId !== provider.id) {
+      throw new Error("Forbidden");
+    }
 
-//     if (order.status === OrderStatus.DELIVERED) {
-//       throw new Error("Cannot cancel. completed order");
-//     }
-//     if (order.status === OrderStatus.CANCELLED) {
-//       throw new Error("Order is already cancelled");
-//     }
-//   }
-//   const result = await prisma.order.update({
-//     where: {
-//       id: orderId,
-//     },
-//     data: {
-//       status: OrderStatus.CANCELLED,
-//     },
-//   });
+    if (order.status === OrderStatus.DELIVERED) {
+      throw new Error("Cannot cancel. completed order");
+    }
+    if (order.status === OrderStatus.CANCELLED) {
+      throw new Error("Order is already cancelled");
+    }
+  }
+  const result = await prisma.order.update({
+    where: {
+      id: orderId,
+    },
+    data: {
+      status: OrderStatus.CANCELLED,
+    },
+  });
 
-//   return result;
-// };
+  return result;
+};
+
 // const deleteOrder = async (orderId: string, userId: string) => {
 //   const user = await prisma.user.findUnique({
 //     where: {
@@ -345,8 +373,8 @@ const getAllOrders = async (userId: string) => {
 export const orderService = {
   createOrder,
   getAllOrders,
-  // getSingleOrder,
+  getSingleOrder,
   // updateOrderStatus,
-  // cancelOrder,
+  cancelOrder,
   // deleteOrder,
 };

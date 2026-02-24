@@ -56,31 +56,31 @@ const getAllOrders = async (req: Request, res: Response) => {
   }
 };
 
-// const getSingleOrder = async (req: Request, res: Response) => {
-//   try {
-//     const orderId = req.params.orderId;
-//     const userId = req.user?.id;
-//     const result = await orderService.getSingleOrder(
-//       orderId as string,
-//       userId as string,
-//     );
+const getSingleOrder = async (req: Request, res: Response) => {
+  try {
+    const orderId = req.params.orderId;
+    const userId = req.user?.id;
+    const result = await orderService.getSingleOrder(
+      orderId as string,
+      userId as string,
+    );
 
-//     sendResponse({
-//       res,
-//       statusCode: 200,
-//       success: true,
-//       message: "Order fetched successfully",
-//       data: result,
-//     });
-//   } catch (error: Error | any) {
-//     sendResponse({
-//       res,
-//       statusCode: 500,
-//       success: false,
-//       message: error.message || "Failed to fetch order",
-//     });
-//   }
-// };
+    sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Order fetched successfully",
+      data: result,
+    });
+  } catch (error: Error | any) {
+    sendResponse({
+      res,
+      statusCode: 500,
+      success: false,
+      message: error.message || "Failed to fetch order",
+    });
+  }
+};
 
 // const updateOrderStatus = async (req: Request, res: Response) => {
 //   try {
@@ -109,34 +109,34 @@ const getAllOrders = async (req: Request, res: Response) => {
 //     });
 //   }
 // };
-// // Cancel Order
-// const cancelOrder = async (req: Request, res: Response) => {
-//   try {
-//     const { orderId } = req.params;
-//     const userId = req.user?.id;
-//     const result = await orderService.cancelOrder(
-//       orderId as string,
-//       userId as string,
-//     );
+// Cancel Order
+const cancelOrder = async (req: Request, res: Response) => {
+  try {
+    const { orderId } = req.params;
+    const userId = req.user?.id;
+    const result = await orderService.cancelOrder(
+      orderId as string,
+      userId as string,
+    );
 
-//     sendResponse({
-//       res,
-//       statusCode: 200,
-//       success: true,
-//       message: "Order cancelled successfully.",
-//       data: result,
-//     });
-//   } catch (error: Error | any) {
-//     sendResponse({
-//       res,
-//       statusCode: 500,
-//       success: false,
-//       message: error.message || "Failed to cancel order",
-//     });
-//   }
-// };
+    sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Order cancelled successfully.",
+      data: result,
+    });
+  } catch (error: Error | any) {
+    sendResponse({
+      res,
+      statusCode: 500,
+      success: false,
+      message: error.message || "Failed to cancel order",
+    });
+  }
+};
 
-// // Delete Order
+// Delete Order
 // const deleteOrder = async (req: Request, res: Response) => {
 //   try {
 //     const { orderId } = req.params;
@@ -164,8 +164,8 @@ const getAllOrders = async (req: Request, res: Response) => {
 export const orderController = {
   createOrder,
   getAllOrders,
-  // getSingleOrder,
+  getSingleOrder,
   // updateOrderStatus,
-  // cancelOrder,
+  cancelOrder,
   // deleteOrder,
 };

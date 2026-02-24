@@ -70,6 +70,7 @@ model Order {
   paymentMethod   PaymentMethod    
   status          OrderStatus      @default(PENDING)
   deliveryAddress String           @db.VarChar(255)
+  deliveryFee     Decimal
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   orderItems      Order_item[]
