@@ -78,23 +78,44 @@ const getAllProvider = async () => {
 // get single provider
 const getSingleProvider = async (providerId: string) => {
   const provider = await prisma.provider_profile.findUnique({
+    where: { id: providerId },
+  });
+
+  if (!provider) return null;
+
+  const totalMeals = await prisma.meal.count({
+    where: { providerId },
+  });
+
+  const totalOrder = await prisma.order.count({
     where: {
-      id: providerId,
+      providerId,
     },
-    include: {
-      meals: true,
-      orders: {
-        include: {
-          reviews: true,
-        },
+  });
+
+  const ratingData = await prisma.review.aggregate({
+    _avg: {
+      rating: true,
+    },
+    _count: {
+      rating: true,
+    },
+    where: {
+      meal: {
+        providerId: providerId,
       },
     },
   });
 
+  const averageRating = ratingData._avg.rating ?? 0;
+  const totalReviews = ratingData._count.rating ?? 0;
+
   return {
     provider,
-    totalMeals: provider?.meals.length,
-    totalOrder: provider?.orders.length,
+    totalMeals,
+    totalOrder,
+    averageRating: Number(averageRating.toFixed(1)),
+    totalReviews,
   };
 };
 
@@ -128,10 +149,6 @@ const updateProviderProfile = async (
   });
   return result;
 };
-
-
-
-
 
 export const providerProfileServices = {
   createProvider,

@@ -82,6 +82,37 @@ const getSingleCategory = async (req: Request, res: Response) => {
   }
 };
 
+//provider specific category
+const getProvidersCategory = async (req: Request, res: Response) => {
+  try {
+
+    const {providerId} = req.params;
+
+    const result = await categoryService.getProvidersCategory(
+      providerId as string,
+    );
+
+    if (result === null) {
+      return res.status(404).json({
+        success: false,
+        message: "category not found",
+      });
+    }
+    return res.json({
+      success: true,
+      message: "Category fetched successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetche category",
+      error: error.message,
+    });
+  }
+};
+
+
 //Update category
 const updateCategory = async (req: Request, res: Response) => {
   try {
@@ -140,6 +171,7 @@ export const categoryController = {
   createCategory,
   getAllCategory,
   getSingleCategory,
+  getProvidersCategory,
   updateCategory,
   deleteCategory,
 };

@@ -146,26 +146,26 @@ const getAllMeals = async (filter?: {
     orderBy: {
       price: "asc",
     },
-    // include: {
-    //   order_items: {
-    //     select: {
-    //       orderId: true,
-    //       quantity: true,
-    //       price: true,
-    //     },
-    //   },
-    //   // reviews: {
-    //   //   select: {
-    //   //     rating: true,
-    //   //     comment: true,
-    //   //     customer: {
-    //   //       select: {
-    //   //         name: true,
-    //   //       },
-    //   //     },
-    //   //   },
-    //   // },
-    // },
+    include: {
+      order_items: {
+        select: {
+          orderId: true,
+          quantity: true,
+          price: true,
+        },
+      },
+      reviews: {
+        select: {
+          rating: true,
+          comment: true,
+          customer: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   return result;
@@ -177,20 +177,20 @@ const getSingleMeal = async (mealId: string) => {
     where: {
       id: mealId,
     },
-    // include: {
-    //   order_items: true,
-    //   reviews: {
-    //     select: {
-    //       rating: true,
-    //       comment: true,
-    //       customer: {
-    //         select: {
-    //           name: true,
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
+    include: {
+      order_items: true,
+      reviews: {
+        select: {
+          rating: true,
+          comment: true,
+          customer: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
   });
   return result;
 };

@@ -1,3 +1,4 @@
+import { UserRole } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 
 // Create category
@@ -30,7 +31,7 @@ const getAllCategory = async () => {
 
 // Get single category
 const getSingleCategory = async (catId: string, userId: string) => {
-  console.log(catId, userId);
+
   const user = await prisma.user.findUnique({
     where: {
       id: userId,
@@ -48,6 +49,29 @@ const getSingleCategory = async (catId: string, userId: string) => {
   console.log(result);
   return result;
 };
+
+//Get Providers category
+const getProvidersCategory = async (providerId: string)=>{
+
+  const provider = await prisma.provider_profile.findUnique({
+    where:{
+      id:providerId
+    }
+  })
+  if(!provider){
+    throw new Error("Provider not found")
+  }
+  const result = await prisma.category.findMany({
+    where:{
+      meals:{
+        some:{
+          providerId:provider.id
+        }
+      }
+    }
+  });
+  return result
+}
 
 //Update category
 const updateCategory = async (
@@ -91,6 +115,7 @@ export const categoryService = {
   createCategory,
   getAllCategory,
   getSingleCategory,
+  getProvidersCategory,
   updateCategory,
   deleteCategory,
 };
