@@ -5,9 +5,10 @@ import { adminController } from "./admin.controller";
 
 const router = Router();
 
+// get all users
+router.get("/users", auth(UserRole.ADMIN), adminController.getAllUsers);
 
 //update user status
-router.get("/users", auth(UserRole.ADMIN), adminController.getAllUsers);
 router.patch(
   "/users/:userId",
   auth(UserRole.ADMIN),
@@ -29,6 +30,7 @@ router.delete(
   adminController.deleteProviderProfile,
 );
 
-
+// dashboard stats
+router.get("/dashboard-stats", adminController.getDashboardStats)
 
 export const adminRoutes = router;

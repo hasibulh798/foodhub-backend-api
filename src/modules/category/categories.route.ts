@@ -10,7 +10,7 @@ router.post("/", auth(UserRole.ADMIN), categoryController.createCategory);
 router.get("/", categoryController.getAllCategory);
 router.get(
   "/provider/:providerId",
-  auth(UserRole.ADMIN, UserRole.PROVIDER),
+
   categoryController.getProvidersCategory,
 );
 router.get(

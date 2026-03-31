@@ -1,14 +1,14 @@
-import { UserRole } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 
 // Create category
-const createCategory = async (payload: { name: string }) => {
-  if (!payload.name) {
-    throw new Error("All field id required!");
+const createCategory = async (payload: { name: string; iconUrl?: string }) => {
+  if (!payload.name || !payload.iconUrl) {
+    throw new Error("All fields are required!");
   }
   const result = await prisma.category.create({
     data: {
       name: payload.name,
+      iconUrl: payload.iconUrl,
     },
   });
 
@@ -31,7 +31,6 @@ const getAllCategory = async () => {
 
 // Get single category
 const getSingleCategory = async (catId: string, userId: string) => {
-
   const user = await prisma.user.findUnique({
     where: {
       id: userId,
@@ -51,27 +50,26 @@ const getSingleCategory = async (catId: string, userId: string) => {
 };
 
 //Get Providers category
-const getProvidersCategory = async (providerId: string)=>{
-
+const getProvidersCategory = async (providerId: string) => {
   const provider = await prisma.provider_profile.findUnique({
-    where:{
-      id:providerId
-    }
-  })
-  if(!provider){
-    throw new Error("Provider not found")
+    where: {
+      id: providerId,
+    },
+  });
+  if (!provider) {
+    throw new Error("Provider not found");
   }
   const result = await prisma.category.findMany({
-    where:{
-      meals:{
-        some:{
-          providerId:provider.id
-        }
-      }
-    }
+    where: {
+      meals: {
+        some: {
+          providerId: provider.id,
+        },
+      },
+    },
   });
-  return result
-}
+  return result;
+};
 
 //Update category
 const updateCategory = async (

@@ -55,7 +55,7 @@ const createProvider = async (payload: {
         userId,
       },
     });
-    console.log(providerProfile);
+
     return providerProfile;
   }
 };
@@ -79,6 +79,9 @@ const getAllProvider = async () => {
 const getSingleProvider = async (providerId: string) => {
   const provider = await prisma.provider_profile.findUnique({
     where: { id: providerId },
+    include:{
+      meals:true
+    }
   });
 
   if (!provider) return null;

@@ -1,4 +1,8 @@
-import { UserRole, UserStatus } from "../../../generated/prisma/enums";
+import {
+  OrderStatus,
+  UserRole,
+  UserStatus,
+} from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 
 // Provider Profile Verification
@@ -56,6 +60,12 @@ const getAllUsers = async (userId: string) => {
       email: true,
       role: true,
       status: true,
+      providerProfiles: {
+        select: {
+          id: true,
+          isVerified: true,
+        },
+      },
     },
   });
   return users;
@@ -98,7 +108,7 @@ const updateUserStatus = async (
 };
 
 // delete provider profile
-const deleteProviderProfile = async (providerId: string,userId: string) => {
+const deleteProviderProfile = async (providerId: string, userId: string) => {
   const result = await prisma.provider_profile.delete({
     where: {
       id: providerId,
@@ -108,9 +118,41 @@ const deleteProviderProfile = async (providerId: string,userId: string) => {
   return result;
 };
 
+// Dashboard Statistic
+const getDashboardStats = async () => {
+  const totalOrders = await prisma.order.count();
+
+  const totalUsers = await prisma.user.count();
+
+  const totalProviders = await prisma.provider_profile.count();
+
+  const verifiedProviders = await prisma.provider_profile.count({
+    where: { isVerified: true },
+  });
+
+  const revenueData = await prisma.order.aggregate({
+    _sum: { totalAmount: true },
+    where: {
+      status: {
+        in: [OrderStatus.DELIVERED],
+      },
+    },
+  });
+  return {
+    data: {
+      totalOrders,
+      totalUsers,
+      totalProviders,
+      verifiedProviders,
+      totalRevenue: revenueData._sum.totalAmount || 0,
+    },
+  };
+};
+
 export const adminService = {
   updateProviderStatus,
   getAllUsers,
   updateUserStatus,
   deleteProviderProfile,
+  getDashboardStats,
 };

@@ -42,7 +42,7 @@ const createMeal = async (
     throw new Error("You are not provider!");
   }
 
-  if (provider.user?.role !== UserRole.PROVIDER && provider.isVerified !== true) {
+  if (provider.user?.role !== UserRole.PROVIDER || provider.isVerified !== true) {
     throw new Error("Permission denied!");
   }
   // console.log("before result");

@@ -113,10 +113,35 @@ const deleteProviderProfile = async (req: Request, res: Response) => {
     });
   }
 };
+const getDashboardStats = async (req: Request, res: Response) => {
+  try {
+    
+ 
+    const result = await adminService.getDashboardStats(
+    );
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Dashboard statistic fetched successfully",
+      data: result
+    });
+  } catch (error: any) {
+    return sendResponse({
+      res,
+      statusCode: 500,
+      success: false,
+      message: error.message || "Failed to fetch.",
+    });
+  }
+};
+
 
 export const adminController = {
   updateProviderStatus,
   getAllUsers,
   updateUserStatus,
   deleteProviderProfile,
+  getDashboardStats
 };

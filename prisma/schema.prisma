@@ -26,6 +26,7 @@ model Provider_profile {
 model Category {
   id        String   @id @default(uuid())
   name      String   @unique @db.VarChar(100)
+  iconUrl   String?
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
