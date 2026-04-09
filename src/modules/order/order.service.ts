@@ -107,7 +107,11 @@ const getAllOrders = async (userId: string) => {
         customerId: userId,
       },
       include: {
-        orderItems: true,
+        orderItems: {
+          include: {
+            meal: true,
+          },
+        },
         provider: {
           select: {
             businessName: true,
@@ -115,6 +119,7 @@ const getAllOrders = async (userId: string) => {
           },
         },
       },
+
       orderBy: {
         createdAt: "desc",
       },
@@ -133,8 +138,13 @@ const getAllOrders = async (userId: string) => {
         providerId: provider.id,
       },
       include: {
-        orderItems: true,
+        orderItems: {
+          include: {
+            meal: true,
+          },
+        },
         customer: {
+
           select: {
             name: true,
             phone: true,
@@ -149,7 +159,11 @@ const getAllOrders = async (userId: string) => {
   } else if (userRole === UserRole.ADMIN) {
     orders = await prisma.order.findMany({
       include: {
-        orderItems: true,
+        orderItems: {
+          include: {
+            meal: true,
+          },
+        },
         provider: {
           select: {
             businessName: true,
@@ -166,6 +180,7 @@ const getAllOrders = async (userId: string) => {
         },
       },
     });
+
   } else {
     throw new Error("Unauthorized !!");
   }
@@ -185,8 +200,13 @@ const getSingleOrder = async (orderId: string, userId: string) => {
       id: orderId,
     },
     include: {
-      orderItems: true,
+      orderItems: {
+        include: {
+          meal: true,
+        },
+      },
       customer: {
+
         select: {
           id: true,
           name: true,

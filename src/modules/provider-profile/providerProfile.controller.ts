@@ -117,9 +117,59 @@ const updateProviderProfile = async (req: Request, res: Response) => {
     });
   }
 };
+// get my profile
+const getMyProviderProfile = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id;
+    const result = await providerProfileServices.getMyProviderProfile(userId as string);
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Profile retrieved successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    return sendResponse({
+      res,
+      statusCode: 500,
+      success: false,
+      message: error.message || "Failed to retrieve profile",
+    });
+  }
+};
+
+// update my profile
+const updateMyProviderProfile = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id;
+    const result = await providerProfileServices.updateMyProviderProfile(
+      userId as string,
+      req.body
+    );
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Profile updated successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    return sendResponse({
+      res,
+      statusCode: 500,
+      success: false,
+      message: error.message || "Failed to update profile",
+    });
+  }
+};
+
 export const providerProfileController = {
   createProvider,
   getAllProvider,
   getSingleProvider,
   updateProviderProfile,
+  getMyProviderProfile,
+  updateMyProviderProfile,
 };
+

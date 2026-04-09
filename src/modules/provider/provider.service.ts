@@ -256,6 +256,35 @@ const cancelOrder = async (orderId: string, userId: string) => {
 
   return result;
 };
+// Toggle meal availability
+const toggleMealAvailability = async (mealId: string, userId: string) => {
+  const provider = await prisma.provider_profile.findUnique({
+    where: { userId },
+  });
+
+  if (!provider) {
+    throw new Error("You are not a provider!");
+  }
+
+  const meal = await prisma.meal.findFirst({
+    where: {
+      id: mealId,
+      providerId: provider.id,
+    },
+  });
+
+  if (!meal) {
+    throw new Error("Meal not found");
+  }
+
+  const result = await prisma.meal.update({
+    where: { id: mealId },
+    data: { isAvailable: !meal.isAvailable },
+  });
+
+  return result;
+};
+
 export const providerService = {
   createMeal,
   getMyMeals,
@@ -263,4 +292,6 @@ export const providerService = {
   deleteMeal,
   updateOrderStatus,
   cancelOrder,
+  toggleMealAvailability,
 };
+

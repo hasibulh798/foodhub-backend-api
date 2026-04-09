@@ -153,9 +153,44 @@ const updateProviderProfile = async (
   return result;
 };
 
+// update my profile
+const updateMyProviderProfile = async (
+  userId: string,
+  payload: {
+    businessName?: string;
+    address?: string;
+    logoUrl?: string;
+  },
+) => {
+  const profile = await prisma.provider_profile.findUnique({
+    where: { userId },
+  });
+  if (!profile) {
+    throw new Error("Provider profile not found");
+  }
+  const result = await prisma.provider_profile.update({
+    where: { id: profile.id },
+    data: payload,
+  });
+  return result;
+};
+
+
+// get my profile
+const getMyProviderProfile = async (userId: string) => {
+  const profile = await prisma.provider_profile.findUnique({
+    where: { userId },
+  });
+  return profile;
+};
+
 export const providerProfileServices = {
   createProvider,
   getAllProvider,
   getSingleProvider,
   updateProviderProfile,
+  getMyProviderProfile,
+  updateMyProviderProfile,
 };
+
+

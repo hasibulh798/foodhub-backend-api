@@ -8,7 +8,7 @@ const router = Router();
 
 
 //Get my meal
-router.get("/meals/my-meals", auth(UserRole.PROVIDER), providerController.getMyMeals);
+router.get("/my-meals", auth(UserRole.PROVIDER), providerController.getMyMeals);
 
 router.post(
   "/meals",
@@ -25,6 +25,12 @@ router.delete(
   auth(UserRole.ADMIN, UserRole.PROVIDER),
   providerController.deleteMeal,
 );
+router.patch(
+  "/meals/:mealId/toggle",
+  auth(UserRole.PROVIDER),
+  providerController.toggleMealAvailability,
+);
+
 
 //Order specific
 

@@ -161,6 +161,33 @@ const cancelOrder = async (req: Request, res: Response) => {
     });
   }
 };
+// Toggle meal availability
+const toggleMealAvailability = async (req: Request, res: Response) => {
+  try {
+    const { mealId } = req.params;
+    const userId = req.user?.id;
+    const result = await providerService.toggleMealAvailability(
+      mealId as string,
+      userId as string,
+    );
+
+    sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Meal availability toggled successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    sendResponse({
+      res,
+      statusCode: 500,
+      success: false,
+      message: error.message || "Failed to toggle meal availability",
+    });
+  }
+};
+
 export const providerController = {
   createMeal,
   getMyMeals,
@@ -168,4 +195,6 @@ export const providerController = {
   deleteMeal,
   updateOrderStatus,
   cancelOrder,
+  toggleMealAvailability,
 };
+
