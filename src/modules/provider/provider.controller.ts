@@ -3,6 +3,10 @@ import { OrderStatus } from "../../../generated/prisma/enums";
 import { sendResponse } from "../../utils/sendResponse";
 import { providerService } from "./provider.service";
 
+
+
+
+
 // Create meal
 const createMeal = async (req: Request, res: Response) => {
   try {
@@ -25,6 +29,28 @@ const createMeal = async (req: Request, res: Response) => {
     });
   }
 };
+
+//Get my meals
+const getMyMeals = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id;
+    const result = await providerService.getMyMeals(userId as string);
+    sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "My meals fetched successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    sendResponse({
+      res,
+      statusCode: 500,
+      success: false,
+      message: error.message || "Failed to fetch my meals",
+    });
+  }
+};  
 
 //Update category
 const updateMeal = async (req: Request, res: Response) => {
@@ -137,6 +163,7 @@ const cancelOrder = async (req: Request, res: Response) => {
 };
 export const providerController = {
   createMeal,
+  getMyMeals,
   updateMeal,
   deleteMeal,
   updateOrderStatus,

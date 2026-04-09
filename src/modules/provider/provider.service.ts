@@ -65,6 +65,24 @@ const createMeal = async (
   return result;
 };
 
+//Get my meals
+const getMyMeals = async (userId: string) => {
+  const provider = await prisma.provider_profile.findUnique({
+    where: {
+      userId,
+    },
+  });
+  if (!provider) {
+    throw new Error("You are not provider!");
+  }
+  const result = await prisma.meal.findMany({
+    where: {
+      providerId: provider.id,
+    },
+  });
+  return result;
+};  
+
 //Update meal
 const updateMeal = async (
   payload: {
@@ -240,6 +258,7 @@ const cancelOrder = async (orderId: string, userId: string) => {
 };
 export const providerService = {
   createMeal,
+  getMyMeals,
   updateMeal,
   deleteMeal,
   updateOrderStatus,

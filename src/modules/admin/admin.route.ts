@@ -22,6 +22,12 @@ router.patch(
   adminController.updateProviderStatus,
 );
 
+// Provider deletion
+router.delete(
+  "/users/:userId",
+  auth(UserRole.ADMIN),
+  adminController.deleteUser,
+);
 
 // Provider deletion
 router.delete(
@@ -31,6 +37,6 @@ router.delete(
 );
 
 // dashboard stats
-router.get("/dashboard-stats", adminController.getDashboardStats)
+router.get("/dashboard-stats", adminController.getDashboardStats);
 
 export const adminRoutes = router;

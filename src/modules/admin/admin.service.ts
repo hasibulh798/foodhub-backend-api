@@ -107,6 +107,25 @@ const updateUserStatus = async (
   return result;
 };
 
+// Delete User
+const deleteUser = async (userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const result = await prisma.user.delete({
+    where: {
+      id: userId,
+    },
+  });
+  return result;
+};
+
 // delete provider profile
 const deleteProviderProfile = async (providerId: string, userId: string) => {
   const result = await prisma.provider_profile.delete({
@@ -153,6 +172,7 @@ export const adminService = {
   updateProviderStatus,
   getAllUsers,
   updateUserStatus,
+  deleteUser,
   deleteProviderProfile,
   getDashboardStats,
 };

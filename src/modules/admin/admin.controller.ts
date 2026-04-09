@@ -88,6 +88,32 @@ const updateUserStatus = async (req: Request, res: Response) => {
   }
 };
 
+// Delete user
+const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const adminId = req.user?.id;
+    const result = await adminService.deleteUser(userId as string);
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    return res.json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete user",
+      error: error.message,
+    });
+  }
+};
+
 // Delete provider profile
 const deleteProviderProfile = async (req: Request, res: Response) => {
   try {
@@ -115,17 +141,14 @@ const deleteProviderProfile = async (req: Request, res: Response) => {
 };
 const getDashboardStats = async (req: Request, res: Response) => {
   try {
-    
- 
-    const result = await adminService.getDashboardStats(
-    );
+    const result = await adminService.getDashboardStats();
 
     return sendResponse({
       res,
       statusCode: 200,
       success: true,
       message: "Dashboard statistic fetched successfully",
-      data: result
+      data: result,
     });
   } catch (error: any) {
     return sendResponse({
@@ -137,11 +160,11 @@ const getDashboardStats = async (req: Request, res: Response) => {
   }
 };
 
-
 export const adminController = {
   updateProviderStatus,
   getAllUsers,
   updateUserStatus,
+  deleteUser,
   deleteProviderProfile,
-  getDashboardStats
+  getDashboardStats,
 };

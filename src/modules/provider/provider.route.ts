@@ -5,6 +5,11 @@ import { providerController } from "./provider.controller";
 
 const router = Router();
 
+
+
+//Get my meal
+router.get("/meals/my-meals", auth(UserRole.PROVIDER), providerController.getMyMeals);
+
 router.post(
   "/meals",
   auth(UserRole.PROVIDER),
