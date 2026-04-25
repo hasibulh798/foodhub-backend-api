@@ -160,6 +160,29 @@ const getDashboardStats = async (req: Request, res: Response) => {
   }
 };
 
+const updateEmailVerification = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const { isVerified } = req.body;
+    const result = await adminService.updateEmailVerification(userId as string, isVerified);
+
+    return sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Email verification status updated successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    return sendResponse({
+      res,
+      statusCode: 500,
+      success: false,
+      message: error.message || "Failed to update email verification status",
+    });
+  }
+};
+
 export const adminController = {
   updateProviderStatus,
   getAllUsers,
@@ -167,4 +190,5 @@ export const adminController = {
   deleteUser,
   deleteProviderProfile,
   getDashboardStats,
+  updateEmailVerification,
 };

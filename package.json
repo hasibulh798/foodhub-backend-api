@@ -7,7 +7,9 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "seed:admin": "npx tsx src/seed/seedAdmin.ts"
+    "seed:admin": "npx tsx src/seed/seedAdmin.ts",
+    "generate": "npx prisma generate",
+    "migrate": "npx prisma migrate dev"
   },
   "keywords": [],
   "author": "",

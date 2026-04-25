@@ -22,6 +22,13 @@ router.patch(
   adminController.updateProviderStatus,
 );
 
+// verify user email manually
+router.patch(
+    "/verify-email/:userId",
+    auth(UserRole.ADMIN),
+    adminController.updateEmailVerification,
+)
+
 // Provider deletion
 router.delete(
   "/users/:userId",

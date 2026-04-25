@@ -182,7 +182,7 @@ const getAllOrders = async (userId: string) => {
     });
 
   } else {
-    throw new Error("Unauthorized !!");
+    throw new Error("Unauthorized!");
   }
   return orders;
 };
@@ -226,7 +226,7 @@ const getSingleOrder = async (orderId: string, userId: string) => {
   }
 
   if (user?.role === UserRole.CUSTOMER && order.customerId !== user.id) {
-    throw new Error("Forbiden");
+    throw new Error("Forbidden");
   }
   if (user?.role === UserRole.PROVIDER) {
     const provider = await prisma.provider_profile.findUnique({
@@ -235,7 +235,7 @@ const getSingleOrder = async (orderId: string, userId: string) => {
       },
     });
     if (!provider || order.providerId !== provider.id) {
-      throw new Error("Forbiden");
+      throw new Error("Forbidden");
     }
   }
 

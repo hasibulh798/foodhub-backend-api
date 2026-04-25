@@ -59,6 +59,8 @@ const getAllMeals = async (filter?: {
   isAvailable?: boolean | undefined;
   cuisine?: string | undefined;
   dietaryType?: DietaryType | undefined;
+  categoryId?: string | undefined;
+  providerId?: string | undefined;
   minPrice?: number | undefined;
   maxPrice?: number | undefined;
   page?: number;
@@ -69,6 +71,8 @@ const getAllMeals = async (filter?: {
     isAvailable,
     cuisine,
     dietaryType,
+    categoryId,
+    providerId,
     minPrice,
     maxPrice,
     page,
@@ -80,6 +84,18 @@ const getAllMeals = async (filter?: {
   const skip = (currentPage - 1) * currentLimit;
 
   const andConditions: MealWhereInput[] = [];
+
+  if (categoryId) {
+    andConditions.push({
+      categoryId: categoryId,
+    });
+  }
+
+  if (providerId) {
+    andConditions.push({
+      providerId: providerId,
+    });
+  }
 
   if (search) {
     andConditions.push({
@@ -137,7 +153,13 @@ const getAllMeals = async (filter?: {
     });
   }
 
-  const result = await prisma.meal.findMany({
+  const totalCount = await prisma.meal.count({
+    where: {
+      AND: andConditions,
+    },
+  });
+
+  const data = await prisma.meal.findMany({
     where: {
       AND: andConditions,
     },
@@ -168,7 +190,13 @@ const getAllMeals = async (filter?: {
     },
   });
 
-  return result;
+  return {
+    data,
+    totalCount,
+    totalPages: Math.ceil(totalCount / currentLimit),
+    page: currentPage,
+    limit: currentLimit,
+  };
 };
 
 // Get single meal

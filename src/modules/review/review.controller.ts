@@ -117,9 +117,30 @@ const deleteReview = async (req: Request, res: Response) => {
     });
   }
 };
+const getPublicReviews = async (req: Request, res: Response) => {
+  try {
+    const result = await reviewService.getPublicReviews();
+    sendResponse({
+      res,
+      statusCode: 200,
+      success: true,
+      message: "Public reviews retrieved successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    sendResponse({
+      res,
+      statusCode: 500,
+      success: false,
+      message: error.message || "Failed to get public reviews",
+    });
+  }
+};
+
 export const reviewController = {
   createReview,
   getAllReviews,
   getMealReviews,
   deleteReview,
+  getPublicReviews,
 };

@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { oAuthProxy } from "better-auth/plugins";
 import nodemailer from "nodemailer";
 import { userRoles, userStatuses } from "../types";
 import { prisma } from "./prisma";
@@ -41,13 +42,14 @@ export const auth = betterAuth({
     autoSignIn: false,
     requireEmailVerification: true,
   },
-  trustedOrigins: ["http://localhost:3000"],
+  baseURL: process.env.BETTER_AUTH_URL!,
+  trustedOrigins: [process.env.FRONTEND_URL as string],
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url, token }) => {
       try {
-        const verificartionUrl = `${url}?token=${token}`;
+        const verificationUrl = `${url}?token=${token}`;
         console.log(user, url, token);
 
         const info = await transporter.sendMail({
@@ -93,7 +95,7 @@ export const auth = betterAuth({
                       <div style="text-align:center; margin:30px 0;">
 
                       <div style="text-align:center; margin:30px 0;">
-                        <a href="${verificartionUrl}"
+                        <a href="${verificationUrl}"
                           style="
                             background:#2563eb;
                             color:#ffffff;
@@ -107,7 +109,7 @@ export const auth = betterAuth({
                         </a>
                       </div>
 
-                      <p style="font-size:13px; color:#request64748b;">
+                      <p style="font-size:13px; color:#64748b;">
                         If you did not create an account, you can safely ignore this email.
                       </p>
 
@@ -121,7 +123,7 @@ export const auth = betterAuth({
                   <tr>
                     <td style="background:#f1f5f9; padding:15px; text-align:center;">
                       <p style="margin:0; font-size:12px; color:#64748b;">
-                        © ${new Date().getFullYear()} Prisma Blog. All rights reserved.
+                        © ${new Date().getFullYear()} Food Hub. All rights reserved.
                       </p>
                     </td>
                   </tr>
@@ -141,7 +143,7 @@ export const auth = betterAuth({
       }
     },
   },
-  baseUrl: process.env.BETTER_AUTH_URL!,
+
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -150,4 +152,17 @@ export const auth = betterAuth({
       prompt: "select_account consent",
     },
   },
+  advanced: {
+    cookies: {
+      session_token: {
+        name: "session_token",
+        attributes: {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        },
+      },
+    },
+  },
+  plugins:[oAuthProxy()]
 });

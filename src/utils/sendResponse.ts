@@ -1,5 +1,4 @@
 import { Response } from "express";
-import { error } from "node:console";
 
 type SendResponseType = {
   res: Response;
@@ -16,6 +15,7 @@ export const sendResponse = ({
   success,
   message,
   data,
+  error,
 }: SendResponseType) => {
   return res.status(statusCode).json({
     success,

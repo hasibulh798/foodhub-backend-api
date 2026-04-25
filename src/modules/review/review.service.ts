@@ -204,9 +204,38 @@ const deleteReview = async (reviewId: string, userId: string) => {
 
   return result;
 };
+const getPublicReviews = async () => {
+  const reviews = await prisma.review.findMany({
+    where: {
+      rating: {
+        gte: 4,
+      },
+    },
+    take: 10,
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      customer: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+      meal: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+  return reviews;
+};
+
 export const reviewService = {
   createReview,
   getAllReviews,
   getMealReviews,
   deleteReview,
+  getPublicReviews,
 };

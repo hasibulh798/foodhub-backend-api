@@ -34,7 +34,7 @@ const updateProviderStatus = async (
       id: providerId,
     },
     data: {
-      isVerified: true,
+      isVerified: payload.isVerified,
     },
   });
 };
@@ -58,6 +58,7 @@ const getAllUsers = async (userId: string) => {
       id: true,
       name: true,
       email: true,
+      emailVerified: true,
       role: true,
       status: true,
       providerProfiles: {
@@ -168,6 +169,19 @@ const getDashboardStats = async () => {
   };
 };
 
+// Update Email Verification
+const updateEmailVerification = async (userId: string, isVerified: boolean) => {
+  const result = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      emailVerified: isVerified,
+    },
+  });
+  return result;
+};
+
 export const adminService = {
   updateProviderStatus,
   getAllUsers,
@@ -175,4 +189,5 @@ export const adminService = {
   deleteUser,
   deleteProviderProfile,
   getDashboardStats,
+  updateEmailVerification,
 };

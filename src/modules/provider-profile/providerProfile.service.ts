@@ -61,8 +61,17 @@ const createProvider = async (payload: {
 };
 
 // get all providers
-const getAllProvider = async () => {
-  const result = await prisma.provider_profile.findMany({
+const getAllProvider = async (filter?: { page?: number; limit?: number }) => {
+  const { page, limit } = filter || {};
+  const currentPage = Number(page) || 1;
+  const currentLimit = Number(limit) || 10;
+  const skip = (currentPage - 1) * currentLimit;
+
+  const totalCount = await prisma.provider_profile.count();
+
+  const data = await prisma.provider_profile.findMany({
+    skip,
+    take: currentLimit,
     include: {
       _count: {
         select: {
@@ -72,7 +81,13 @@ const getAllProvider = async () => {
     },
   });
 
-  return result;
+  return {
+    data,
+    totalCount,
+    totalPages: Math.ceil(totalCount / currentLimit),
+    page: currentPage,
+    limit: currentLimit,
+  };
 };
 
 // get single provider

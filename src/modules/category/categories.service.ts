@@ -73,7 +73,7 @@ const getProvidersCategory = async (providerId: string) => {
 
 //Update category
 const updateCategory = async (
-  payload: { name: string },
+  payload: { name?: string; isActive?: boolean; iconUrl?: string },
   catId: string,
   userId: string,
 ) => {
@@ -87,7 +87,7 @@ const updateCategory = async (
       id: catId,
     },
     data: {
-      name: payload.name,
+      ...payload
     },
   });
 

@@ -23,8 +23,8 @@ const getProfile = async (req: Request, res: Response) => {
       res,
       statusCode: 200,
       success: true,
-      message: "Fetched",
-      data: session?.user,
+      message: "Fetched profile successfully",
+      data: req.user,
     });
   } catch (error: any) {
     sendResponse({

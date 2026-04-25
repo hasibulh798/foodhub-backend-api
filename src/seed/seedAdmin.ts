@@ -16,24 +16,29 @@ const seedAdmin = async () => {
       },
     });
     if (existingAdmin) {
-      throw new Error("Admin already exists");
+      console.log("Admin already exists");
+      return;
     }
+    const betterAuthUrl = process.env.BETTER_AUTH_URL || "http://localhost:5000";
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+    
     const response = await fetch(
-      "http://localhost:5000/api/auth/sign-up/email",
+      `${betterAuthUrl}/api/auth/sign-up/email`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Origin: "http://localhost:3000",
+          Origin: frontendUrl,
         },
         body: JSON.stringify(adminData),
       },
     );
 
     if (!response.ok) {
-      throw new Error("Failed to create admin");
+      const errorText = await response.text();
+      throw new Error(`Failed to create admin: ${errorText}`);
     }
-    const emailVerificatiom = await prisma.user.update({
+    await prisma.user.update({
       where: {
         email: adminData.email,
       },
@@ -41,8 +46,10 @@ const seedAdmin = async () => {
         emailVerified: true,
       },
     });
+    console.log("Admin seeded successfully");
   } catch (error: any) {
-    throw new Error("Error seeding admin:", error);
+    console.error("Error seeding admin:", error.message);
+    process.exit(1);
   }
 };
 seedAdmin();

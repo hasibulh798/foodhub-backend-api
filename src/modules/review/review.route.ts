@@ -5,8 +5,11 @@ import { reviewController } from "./review.controller";
 
 const router = Router();
 
+// Get public reviews for homepage
+router.get("/public", reviewController.getPublicReviews);
+
 // Create a review for a meal
-router.post("/create", auth(UserRole.CUSTOMER), reviewController.createReview);
+router.post("/", auth(UserRole.CUSTOMER), reviewController.createReview);
 
 // Get all reviews for a user
 router.get(
@@ -15,7 +18,7 @@ router.get(
   reviewController.getAllReviews,
 );
 // Get all reviews for a meal
-router.get("/", reviewController.getMealReviews);
+router.get("/meal/:mealId", reviewController.getMealReviews);
 
 //Delete a review
 router.delete(

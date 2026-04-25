@@ -35,9 +35,14 @@ const createProvider = async (req: Request, res: Response) => {
 
 const getAllProvider = async (req: Request, res: Response) => {
   try {
-    const result = await providerProfileServices.getAllProvider();
+    const { page, limit } = req.query;
+    const filter: { page?: number; limit?: number } = {};
+    if (page) filter.page = Number(page);
+    if (limit) filter.limit = Number(limit);
 
-    if (result.length === 0) {
+    const result = await providerProfileServices.getAllProvider(filter);
+
+    if (!result.data || result.data.length === 0) {
       return sendResponse({
         res,
         statusCode: 404,
@@ -47,9 +52,9 @@ const getAllProvider = async (req: Request, res: Response) => {
     }
     return sendResponse({
       res,
-      statusCode: 201,
+      statusCode: 200,
       success: true,
-      message: "Provider retrived successfully",
+      message: "Provider retrieved successfully",
       data: result,
     });
   } catch (error: any) {
@@ -57,7 +62,7 @@ const getAllProvider = async (req: Request, res: Response) => {
       res,
       statusCode: 500,
       success: false,
-      message: error.message || "Failed to retrived Provider.",
+      message: error.message || "Failed to retrieve Provider.",
     });
   }
 };

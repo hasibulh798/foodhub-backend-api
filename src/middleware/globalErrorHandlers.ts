@@ -35,7 +35,7 @@ const errorHandler = (
   res.status(statusCode).json({
     success: false,
     message,
-    error: errorDetails,
+    error: process.env.NODE_ENV === "development" ? errorDetails : undefined,
   });
 };
 export default errorHandler;
