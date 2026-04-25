@@ -12,6 +12,7 @@ import { orderRoutes } from "./modules/order/order.route";
 import { providerProfileRoutes } from "./modules/provider-profile/providerProfile.route";
 import { ProviderRoutes } from "./modules/provider/provider.route";
 import { reviewRoutes } from "./modules/review/review.route";
+import { paymentRoutes } from "./modules/payment/payment.route";
 
 const app = express();
 
@@ -54,6 +55,9 @@ app.use("/api/admin", adminRoutes);
 
 // Provider Specific routes
 app.use("/api/provider", ProviderRoutes);
+
+// Payment routes
+app.use("/api/payment", paymentRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

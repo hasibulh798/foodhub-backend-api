@@ -1,9 +1,11 @@
 import {
   OrderStatus,
   PaymentMethod,
+  PaymentStatus,
   UserRole,
 } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
+import { paymentService } from "../payment/payment.service";
 
 // Create Order
 const createOrder = async (
@@ -21,12 +23,24 @@ const createOrder = async (
     throw new Error("No items provided!");
   }
 
+  // Fetch Customer Details
+  const customer = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!customer) {
+    throw new Error("Customer not found!");
+  }
+
   const mealIds = items.map((item) => item.mealId);
 
   const meals = await prisma.meal.findMany({
     where: {
       id: { in: mealIds },
     },
+    include: {
+        provider: true
+    }
   });
 
   let subtotal = 0;
@@ -58,17 +72,12 @@ const createOrder = async (
   if (!allSameProvider) {
     throw new Error("You cannot order from multiple providers in one order");
   }
-  // const provider = await prisma.provider_profile.findUnique({
-  //   where: {
-  //     id: providerId
-  //   }
-  // })
-  // if(!provider){
-  //   throw new Error("Provider not found")
-  // }
 
   const deliveryFee = 120;
   const totalAmount = subtotal + deliveryFee;
+  const transactionId = paymentMethod === PaymentMethod.ONLINE 
+    ? `TXN-${Date.now()}-${Math.floor(Math.random() * 1000)}` 
+    : null;
 
   const result = await prisma.order.create({
     data: {
@@ -79,6 +88,7 @@ const createOrder = async (
       subtotal,
       deliveryFee,
       totalAmount,
+      transactionId,
       orderItems: {
         create: orderItemsData,
       },
@@ -88,6 +98,24 @@ const createOrder = async (
       orderItems: true,
     },
   });
+
+  // If Online, initiate SSLCommerz
+  if (paymentMethod === PaymentMethod.ONLINE && transactionId) {
+    const paymentUrl = await paymentService.initPayment({
+      total_amount: totalAmount,
+      tran_id: transactionId,
+      cus_name: customer.name,
+      cus_email: customer.email,
+      cus_phone: phone,
+      cus_add1: deliveryAddress,
+      product_name: "Food Hub Order",
+    });
+
+    return {
+        ...result,
+        paymentUrl
+    };
+  }
 
   return result;
 };
