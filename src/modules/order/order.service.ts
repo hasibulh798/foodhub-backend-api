@@ -73,7 +73,7 @@ const createOrder = async (
     throw new Error("You cannot order from multiple providers in one order");
   }
 
-  const deliveryFee = 120;
+  const deliveryFee = Number(meals[0]!.provider.deliveryFee);
   const totalAmount = subtotal + deliveryFee;
   const transactionId = paymentMethod === PaymentMethod.ONLINE 
     ? `TXN-${Date.now()}-${Math.floor(Math.random() * 1000)}` 

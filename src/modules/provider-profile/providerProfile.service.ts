@@ -11,9 +11,18 @@ const createProvider = async (payload: {
   businessName: string;
   address: string;
   logoUrl?: string;
+  deliveryFee?: number;
 }) => {
-  const { name, email, password, phone, businessName, address, logoUrl } =
-    payload;
+  const {
+    name,
+    email,
+    password,
+    phone,
+    businessName,
+    address,
+    logoUrl,
+    deliveryFee,
+  } = payload;
 
   const user = await prisma.user.findUnique({
     where: { email },
@@ -28,6 +37,7 @@ const createProvider = async (payload: {
         businessName,
         address,
         logoUrl: logoUrl || null,
+        deliveryFee: deliveryFee || 60,
         userId: user.id,
       },
     });
@@ -52,6 +62,7 @@ const createProvider = async (payload: {
         businessName,
         address,
         logoUrl: logoUrl || null,
+        deliveryFee: deliveryFee || 60,
         userId,
       },
     });
@@ -143,10 +154,11 @@ const updateProviderProfile = async (
     businessName: string;
     address: string;
     logoUrl: string;
+    deliveryFee?: number;
   },
   providerId: string,
 ) => {
-  const { businessName, address, logoUrl } = payload;
+  const { businessName, address, logoUrl, deliveryFee } = payload;
   const provider = await prisma.provider_profile.findUnique({
     where: {
       id: providerId,
@@ -163,6 +175,7 @@ const updateProviderProfile = async (
       businessName,
       address,
       logoUrl,
+      deliveryFee,
     },
   });
   return result;
@@ -175,6 +188,7 @@ const updateMyProviderProfile = async (
     businessName?: string;
     address?: string;
     logoUrl?: string;
+    deliveryFee?: number;
   },
 ) => {
   const profile = await prisma.provider_profile.findUnique({

@@ -168,6 +168,7 @@ if (providerId && providerId.trim() !== "") {
       price: "asc",
     },
     include: {
+      provider: true,
       order_items: {
         select: {
           orderId: true,
@@ -205,6 +206,7 @@ const getSingleMeal = async (mealId: string) => {
       id: mealId,
     },
     include: {
+      provider: true,
       order_items: true,
       reviews: {
         select: {
