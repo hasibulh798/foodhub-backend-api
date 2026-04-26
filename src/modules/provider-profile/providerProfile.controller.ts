@@ -35,10 +35,11 @@ const createProvider = async (req: Request, res: Response) => {
 
 const getAllProvider = async (req: Request, res: Response) => {
   try {
-    const { page, limit } = req.query;
-    const filter: { page?: number; limit?: number } = {};
+    const { page, limit, isVerified } = req.query;
+    const filter: { page?: number; limit?: number; isVerified?: boolean } = {};
     if (page) filter.page = Number(page);
     if (limit) filter.limit = Number(limit);
+    if (isVerified !== undefined) filter.isVerified = isVerified === "true";
 
     const result = await providerProfileServices.getAllProvider(filter);
 

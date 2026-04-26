@@ -79,7 +79,7 @@ const getAllMeals = async (filter?: {
     limit,
   } = filter || {};
   const currentPage = Number(page) || 1;
-  const currentLimit = Number(limit) || 10;
+  const currentLimit = Number(limit) || 12;
   // console.log("take: ", currentLimit);
   const skip = (currentPage - 1) * currentLimit;
 

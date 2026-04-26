@@ -72,15 +72,25 @@ const createProvider = async (payload: {
 };
 
 // get all providers
-const getAllProvider = async (filter?: { page?: number; limit?: number }) => {
-  const { page, limit } = filter || {};
+const getAllProvider = async (filter?: { 
+  page?: number; 
+  limit?: number;
+  isVerified?: boolean;
+}) => {
+  const { page, limit, isVerified } = filter || {};
   const currentPage = Number(page) || 1;
   const currentLimit = Number(limit) || 10;
   const skip = (currentPage - 1) * currentLimit;
 
-  const totalCount = await prisma.provider_profile.count();
+  const where: any = {};
+  if (isVerified !== undefined) {
+    where.isVerified = isVerified;
+  }
+
+  const totalCount = await prisma.provider_profile.count({ where });
 
   const data = await prisma.provider_profile.findMany({
+    where,
     skip,
     take: currentLimit,
     include: {
@@ -175,7 +185,7 @@ const updateProviderProfile = async (
       businessName,
       address,
       logoUrl,
-      deliveryFee,
+      deliveryFee: deliveryFee !== undefined ? deliveryFee : 60,
     },
   });
   return result;

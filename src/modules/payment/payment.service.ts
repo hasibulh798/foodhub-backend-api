@@ -129,6 +129,36 @@ export const handlePaymentCancel = async (body: any) => {
   return `${process.env.FRONTEND_URL}/payment/cancel`;
 };
 
+export const handlePaymentIpn = async (body: any) => {
+  console.log("IPN callback body:", body);
+  const { tran_id, status } = body;
+
+  if (!tran_id) return false;
+
+  // Use updateMany to avoid throwing errors if the record is not found or already updated
+  if (status === "VALID" || status === "VALIDATED" || status === "SUCCESS") {
+    await prisma.order.updateMany({
+      where: { transactionId: tran_id, paymentStatus: { not: PaymentStatus.PAID } },
+      data: { 
+        paymentStatus: PaymentStatus.PAID,
+        status: OrderStatus.CONFIRMED
+      },
+    });
+  } else if (status === "FAILED") {
+    await prisma.order.updateMany({
+      where: { transactionId: tran_id, paymentStatus: { not: PaymentStatus.FAILED } },
+      data: { paymentStatus: PaymentStatus.FAILED },
+    });
+  } else if (status === "CANCELLED") {
+    await prisma.order.updateMany({
+      where: { transactionId: tran_id, paymentStatus: { not: PaymentStatus.CANCELLED } },
+      data: { paymentStatus: PaymentStatus.CANCELLED },
+    });
+  }
+
+  return true;
+};
+
 /**
  * Placeholder for validatePayment if needed by other modules
  */
@@ -143,5 +173,6 @@ export const paymentService = {
   handlePaymentSuccess,
   handlePaymentFail,
   handlePaymentCancel,
+  handlePaymentIpn,
   validatePayment,
 };

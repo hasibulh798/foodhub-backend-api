@@ -32,3 +32,12 @@ export const paymentCancel = async (req: Request, res: Response) => {
   const redirectUrl = await paymentService.handlePaymentCancel(req.body);
   res.redirect(redirectUrl);
 };
+
+export const paymentIpn = async (req: Request, res: Response) => {
+  try {
+    await paymentService.handlePaymentIpn(req.body);
+    res.status(200).send("IPN Processed");
+  } catch (error) {
+    res.status(500).send("IPN Processing Failed");
+  }
+};

@@ -12,5 +12,6 @@ router.post("/:orderId/initiate", auth(UserRole.CUSTOMER), paymentController.ini
 router.post("/success", paymentController.paymentSuccess);
 router.post("/fail", paymentController.paymentFail);
 router.post("/cancel", paymentController.paymentCancel);
+router.post("/ipn", paymentController.paymentIpn);
 
 export const paymentRoutes = router;
