@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "start": "node dist/server.js",
     "seed:admin": "npx tsx src/seed/seedAdmin.ts",
     "generate": "npx prisma generate",
