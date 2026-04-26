@@ -170,7 +170,8 @@ export const auth = betterAuth({
           sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
           partitioned: true
         },
+      },
     },
   },
-  plugins:[oAuthProxy()]
+  plugins: [oAuthProxy()]
 });
