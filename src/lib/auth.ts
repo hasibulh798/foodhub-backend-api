@@ -50,7 +50,6 @@ export const auth = betterAuth({
     sendVerificationEmail: async ({ user, url, token }) => {
       try {
         const verificationUrl = `${url}?token=${token}`;
-        // console.log(user, url, token);
 
         const info = await transporter.sendMail({
           from: `"Food Hub" <${process.env.SMTP_USER}>`,
@@ -160,8 +159,17 @@ export const auth = betterAuth({
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          partitioned: true
         },
       },
+      state: {
+         name: "session_token",
+        attributes: {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          partitioned: true
+        },
     },
   },
   plugins:[oAuthProxy()]
