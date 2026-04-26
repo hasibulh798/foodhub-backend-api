@@ -85,17 +85,16 @@ const getAllMeals = async (filter?: {
 
   const andConditions: MealWhereInput[] = [];
 
-  if (categoryId) {
-    andConditions.push({
-      categoryId: categoryId,
-    });
-  }
-
-  if (providerId) {
-    andConditions.push({
-      providerId: providerId,
-    });
-  }
+ if (categoryId && categoryId.trim() !== "") {
+  andConditions.push({
+    categoryId: categoryId.trim(),
+  });
+}
+if (providerId && providerId.trim() !== "") {
+  andConditions.push({
+    providerId: providerId.trim(),
+  });
+}
 
   if (search) {
     andConditions.push({

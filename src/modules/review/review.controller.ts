@@ -28,14 +28,6 @@ const getAllReviews = async (req: Request, res: Response) => {
     const userId = req.user?.id;
     const result = await reviewService.getAllReviews(userId as string);
 
-    if (result.length === 0) {
-      sendResponse({
-        res,
-        statusCode: 404,
-        success: false,
-        message: "No review found",
-      });
-    }
     sendResponse({
       res,
       statusCode: 200,
@@ -59,14 +51,6 @@ const getMealReviews = async (req: Request, res: Response) => {
     const mealId = req.params.mealId;
     const result = await reviewService.getMealReviews(mealId as string);
 
-    if (!result.length) {
-      return sendResponse({
-        res,
-        statusCode: 404,
-        success: false,
-        message: "No reviews found for this meal",
-      });
-    }
     res.status(200).json({
       success: true,
       message: "Reviews for the meal retrieved successfully",

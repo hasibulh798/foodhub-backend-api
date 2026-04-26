@@ -1,16 +1,16 @@
-import express from "express";
-import { paymentController } from "./payment.controller";
+import { Router } from "express";
+import { UserRole } from "../../../generated/prisma/enums";
+import { auth } from "../../middleware/auth";
+import * as paymentController from "./payment.controller";
 
-const router = express.Router();
+const router = Router();
 
-router.post("/success", paymentController.handleSuccess);
-router.post("/fail", paymentController.handleFail);
-router.post("/cancel", paymentController.handleCancel);
-router.post("/ipn", paymentController.handleIPN);
+// Customer initiates payment for their order
+router.post("/:orderId/initiate", auth(UserRole.CUSTOMER), paymentController.initiatePayment);
 
-// Also support GET for development/testing if needed, but SSLCommerz sends POST
-router.get("/success", paymentController.handleSuccess);
-router.get("/fail", paymentController.handleFail);
-router.get("/cancel", paymentController.handleCancel);
+// SSLCommerz callback URLs (no auth - called by SSLCommerz server)
+router.post("/success", paymentController.paymentSuccess);
+router.post("/fail", paymentController.paymentFail);
+router.post("/cancel", paymentController.paymentCancel);
 
 export const paymentRoutes = router;

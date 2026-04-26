@@ -30,15 +30,6 @@ const getAllOrders = async (req: Request, res: Response) => {
     const userId = req.user?.id;
     const result = await orderService.getAllOrders(userId as string);
 
-    if (!result.length) {
-      return sendResponse({
-        res,
-        statusCode: 404,
-        success: false,
-        message: "No order found",
-      });
-    }
-
     sendResponse({
       res,
       statusCode: 200,

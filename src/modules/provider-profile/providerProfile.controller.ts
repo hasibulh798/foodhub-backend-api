@@ -42,14 +42,6 @@ const getAllProvider = async (req: Request, res: Response) => {
 
     const result = await providerProfileServices.getAllProvider(filter);
 
-    if (!result.data || result.data.length === 0) {
-      return sendResponse({
-        res,
-        statusCode: 404,
-        success: false,
-        message: "Provider not found",
-      });
-    }
     return sendResponse({
       res,
       statusCode: 200,

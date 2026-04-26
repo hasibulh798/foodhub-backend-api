@@ -31,15 +31,9 @@ const getAllCategory = async (req: Request, res: Response) => {
   try {
     const result = await categoryService.getAllCategory();
 
-    if (result === null) {
-      return res.status(404).json({
-        success: false,
-        message: "Category not found",
-      });
-    }
     return res.json({
       success: true,
-      message: "Category created successfully",
+      message: "Category fetched successfully",
       data: result,
     });
   } catch (error: any) {
@@ -92,12 +86,6 @@ const getProvidersCategory = async (req: Request, res: Response) => {
       providerId as string,
     );
 
-    if (result === null) {
-      return res.status(404).json({
-        success: false,
-        message: "category not found",
-      });
-    }
     return res.json({
       success: true,
       message: "Category fetched successfully",

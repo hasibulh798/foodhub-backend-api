@@ -1,77 +1,34 @@
 import { Request, Response } from "express";
-import { prisma } from "../../lib/prisma";
-import { OrderStatus, PaymentStatus } from "../../../generated/prisma/enums";
+import * as paymentService from "./payment.service";
+import { sendResponse } from "../../utils/sendResponse";
 
-const handleSuccess = async (req: Request, res: Response) => {
-  const { tran_id } = req.query;
-
-  if (!tran_id) {
-    return res.redirect(`${process.env.FRONTEND_URL}/payment/fail`);
-  }
-
+export const initiatePayment = async (req: Request, res: Response) => {
   try {
-    await prisma.order.update({
-      where: { transactionId: tran_id as string },
-      data: {
-        paymentStatus: PaymentStatus.PAID,
-        status: OrderStatus.CONFIRMED,
-      },
-    });
+    const { orderId } = req.params;
+    const userId = req.user?.id!;
+    const result = await paymentService.initiatePayment(orderId as string, userId);
+    sendResponse({ res, statusCode: 200, success: true, message: "Payment initiated", data: result });
+  } catch (error: any) {
+    sendResponse({ res, statusCode: 400, success: false, message: error.message });
+  }
+};
 
-    res.redirect(`${process.env.FRONTEND_URL}/payment/success?tran_id=${tran_id}`);
-  } catch (error) {
+// These endpoints are called by SSLCommerz (no auth middleware)
+export const paymentSuccess = async (req: Request, res: Response) => {
+  try {
+    const redirectUrl = await paymentService.handlePaymentSuccess(req.body);
+    res.redirect(redirectUrl);
+  } catch {
     res.redirect(`${process.env.FRONTEND_URL}/payment/fail`);
   }
 };
 
-const handleFail = async (req: Request, res: Response) => {
-  const { tran_id } = req.query;
-
-  if (tran_id) {
-    await prisma.order.update({
-      where: { transactionId: tran_id as string },
-      data: {
-        paymentStatus: PaymentStatus.FAILED,
-      },
-    });
-  }
-
-  res.redirect(`${process.env.FRONTEND_URL}/payment/fail`);
+export const paymentFail = async (req: Request, res: Response) => {
+  const redirectUrl = await paymentService.handlePaymentFail(req.body);
+  res.redirect(redirectUrl);
 };
 
-const handleCancel = async (req: Request, res: Response) => {
-  const { tran_id } = req.query;
-
-  if (tran_id) {
-    await prisma.order.update({
-      where: { transactionId: tran_id as string },
-      data: {
-        paymentStatus: PaymentStatus.CANCELLED,
-      },
-    });
-  }
-
-  res.redirect(`${process.env.FRONTEND_URL}/payment/cancel`);
-};
-
-const handleIPN = async (req: Request, res: Response) => {
-  // IPN handling logic for real-time background status updates
-  const data = req.body;
-  if (data.status === "VALID") {
-    await prisma.order.update({
-      where: { transactionId: data.tran_id },
-      data: {
-        paymentStatus: PaymentStatus.PAID,
-        status: OrderStatus.CONFIRMED,
-      },
-    });
-  }
-  res.status(200).send("IPN Received");
-};
-
-export const paymentController = {
-  handleSuccess,
-  handleFail,
-  handleCancel,
-  handleIPN,
+export const paymentCancel = async (req: Request, res: Response) => {
+  const redirectUrl = await paymentService.handlePaymentCancel(req.body);
+  res.redirect(redirectUrl);
 };

@@ -9,15 +9,17 @@ import { authRouter } from "./modules/auth/auth.route";
 import { categoryRoutes } from "./modules/category/categories.route";
 import { mealRoutes } from "./modules/meal/meal.route";
 import { orderRoutes } from "./modules/order/order.route";
+import { paymentRoutes } from "./modules/payment/payment.route";
 import { providerProfileRoutes } from "./modules/provider-profile/providerProfile.route";
 import { ProviderRoutes } from "./modules/provider/provider.route";
 import { reviewRoutes } from "./modules/review/review.route";
-import { paymentRoutes } from "./modules/payment/payment.route";
+
 
 const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN || "http://localhost:3000",

@@ -33,6 +33,8 @@ const getAllMeals = async (req: Request, res: Response) => {
       maxPrice,
       page,
       limit,
+      categoryId,   
+      providerId,  
     } = req.query;
 
     const searchString = search ? (search as string) : undefined;
@@ -53,14 +55,10 @@ const getAllMeals = async (req: Request, res: Response) => {
       maxPrice,
       page,
       limit,
+      categoryId: categoryId as string,   
+      providerId: providerId as string,   
     } as any);
 
-    if (result === null) {
-      return res.status(404).json({
-        success: false,
-        message: "Meal not found",
-      });
-    }
     return res.json({
       success: true,
       message: "Meal fetched successfully",

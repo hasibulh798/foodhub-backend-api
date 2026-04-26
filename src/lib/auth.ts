@@ -50,10 +50,10 @@ export const auth = betterAuth({
     sendVerificationEmail: async ({ user, url, token }) => {
       try {
         const verificationUrl = `${url}?token=${token}`;
-        console.log(user, url, token);
+        // console.log(user, url, token);
 
         const info = await transporter.sendMail({
-          from: '"Food Hub" <food.hub@gmail.com>',
+          from: `"Food Hub" <${process.env.SMTP_USER}>`,
           to: user.email,
           subject: "Verify your email address",
           html: `
