@@ -25,7 +25,10 @@
 
     "moduleResolution": "bundler",
 
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "noImplicitAny": false
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

@@ -49,7 +49,9 @@ export const auth = betterAuth({
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url, token }) => {
       try {
-        const verificationUrl = `${url}?token=${token}`;
+        const parsedUrl = new URL(url);
+        const verificationUrl = `${process.env.FRONTEND_URL}${parsedUrl.pathname}${parsedUrl.search}`;
+        // const verificationUrl = `${url}?token=${token}`;
         // console.log(user, url, token);
 
         const info = await transporter.sendMail({
@@ -164,5 +166,5 @@ export const auth = betterAuth({
       },
     },
   },
-  plugins:[oAuthProxy()]
+  plugins: [oAuthProxy()]
 });
