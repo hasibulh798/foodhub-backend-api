@@ -3,8 +3,8 @@ import {
   OrderStatus,
   Prisma,
   UserRole,
-} from "../../../generated/prisma/client";
-import { prisma } from "../../lib/prisma";
+} from "../../generated/prisma/client.js";
+import { prisma } from "../../lib/prisma.js";
 
 // Create meal
 const createMeal = async (
@@ -14,6 +14,7 @@ const createMeal = async (
     description: string;
     price: Prisma.Decimal;
     imageUrl: string;
+    isAvailable?: boolean;
     cuisine?: string | undefined;
     dietaryType?: DietaryType | undefined;
   },
@@ -42,9 +43,10 @@ const createMeal = async (
     throw new Error("You are not provider!");
   }
 
-  if (provider.user?.role !== UserRole.PROVIDER || provider.isVerified !== true) {
-    throw new Error("Permission denied!");
+  if (provider.user?.role !== UserRole.PROVIDER) {
+    throw new Error("Permission denied! You are not a provider.");
   }
+
   // console.log("before result");
   // console.log(payload);
   const result = await prisma.meal.create({
@@ -54,6 +56,7 @@ const createMeal = async (
       price,
       imageUrl,
       categoryId,
+      isAvailable: payload.isAvailable ?? true,
       cuisine: cuisine ?? null,
       dietaryType: dietaryType ?? null,
       providerId: provider.id,

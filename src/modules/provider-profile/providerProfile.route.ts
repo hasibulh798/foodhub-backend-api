@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { UserRole } from "../../../generated/prisma/client";
+import { UserRole } from "../../generated/prisma/client.js";
 
-import { auth } from "../../middleware/auth";
-import { providerProfileController } from "./providerProfile.controller";
+import { auth } from "../../middleware/auth.js";
+import { providerProfileController } from "./providerProfile.controller.js";
 
 const router = Router();
 

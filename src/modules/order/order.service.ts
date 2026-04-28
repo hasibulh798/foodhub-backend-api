@@ -1,11 +1,10 @@
+import { OrderStatus } from "../../generated/prisma/client.js";
 import {
-  OrderStatus,
   PaymentMethod,
-  PaymentStatus,
-  UserRole,
-} from "../../../generated/prisma/enums";
-import { prisma } from "../../lib/prisma";
-import { paymentService } from "../payment/payment.service";
+  UserRole
+} from "../../generated/prisma/client.js";
+import { prisma } from "../../lib/prisma.js";
+import { paymentService } from "../payment/payment.service.js";
 
 // Create Order
 const createOrder = async (
@@ -16,6 +15,7 @@ const createOrder = async (
     Items: { mealId: string; quantity: number }[];
   },
   userId: string,
+
 ) => {
   const { Items: items, deliveryAddress, paymentMethod, phone } = orderData;
 
@@ -39,7 +39,7 @@ const createOrder = async (
       id: { in: mealIds },
     },
     include: {
-        provider: true
+      provider: true
     }
   });
 
@@ -75,8 +75,8 @@ const createOrder = async (
 
   const deliveryFee = Number(meals[0]!.provider.deliveryFee);
   const totalAmount = subtotal + deliveryFee;
-  const transactionId = paymentMethod === PaymentMethod.ONLINE 
-    ? `TXN-${Date.now()}-${Math.floor(Math.random() * 1000)}` 
+  const transactionId = paymentMethod === PaymentMethod.ONLINE
+    ? `TXN-${Date.now()}-${Math.floor(Math.random() * 1000)}`
     : null;
 
   const result = await prisma.order.create({
@@ -112,8 +112,8 @@ const createOrder = async (
     });
 
     return {
-        ...result,
-        paymentUrl
+      ...result,
+      paymentUrl
     };
   }
 
@@ -179,7 +179,7 @@ const getAllOrders = async (userId: string) => {
           },
         },
       },
-      
+
       orderBy: {
         createdAt: "desc",
       },
@@ -222,6 +222,10 @@ const getSingleOrder = async (orderId: string, userId: string) => {
       id: userId,
     },
   });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
 
   const order = await prisma.order.findUnique({
     where: {

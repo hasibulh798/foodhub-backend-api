@@ -1,6 +1,6 @@
 import SSLCommerzPayment from "sslcommerz-lts";
-import { prisma } from "../../lib/prisma";
-import { OrderStatus, PaymentMethod, PaymentStatus } from "../../../generated/prisma/enums";
+import { prisma } from "../../lib/prisma.js";
+import { OrderStatus, PaymentMethod, PaymentStatus } from "../../generated/prisma/client.js";
 
 const isLive = process.env.SSL_IS_LIVE === "true";
 

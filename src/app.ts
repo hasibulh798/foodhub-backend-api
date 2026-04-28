@@ -1,18 +1,18 @@
 import { toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import express from "express";
-import { auth } from "./lib/auth";
-import errorHandler from "./middleware/globalErrorHandlers";
-import { notFound } from "./middleware/notFound";
-import { adminRoutes } from "./modules/admin/admin.route";
-import { authRouter } from "./modules/auth/auth.route";
-import { categoryRoutes } from "./modules/category/categories.route";
-import { mealRoutes } from "./modules/meal/meal.route";
-import { orderRoutes } from "./modules/order/order.route";
-import { paymentRoutes } from "./modules/payment/payment.route";
-import { providerProfileRoutes } from "./modules/provider-profile/providerProfile.route";
-import { ProviderRoutes } from "./modules/provider/provider.route";
-import { reviewRoutes } from "./modules/review/review.route";
+import { auth } from "./lib/auth.js";
+import errorHandler from "./middleware/globalErrorHandlers.js";
+import { notFound } from "./middleware/notFound.js";
+import { adminRoutes } from "./modules/admin/admin.route.js";
+import { authRouter } from "./modules/auth/auth.route.js";
+import { categoryRoutes } from "./modules/category/categories.route.js";
+import { mealRoutes } from "./modules/meal/meal.route.js";
+import { orderRoutes } from "./modules/order/order.route.js";
+import { paymentRoutes } from "./modules/payment/payment.route.js";
+import { providerProfileRoutes } from "./modules/provider-profile/providerProfile.route.js";
+import { ProviderRoutes } from "./modules/provider/provider.route.js";
+import { reviewRoutes } from "./modules/review/review.route.js";
 
 
 const app = express();

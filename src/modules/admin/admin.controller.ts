@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { UserStatus } from "../../../generated/prisma/enums";
-import { sendResponse } from "../../utils/sendResponse";
-import { adminService } from "./admin.service";
+import { UserStatus } from "../../generated/prisma/client.js";
+import { sendResponse } from "../../utils/sendResponse.js";
+import { adminService } from "./admin.service.js";
 
 // Provider Profile Verification
 const updateProviderStatus = async (req: Request, res: Response) => {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { OrderStatus } from "../../../generated/prisma/enums";
-import { sendResponse } from "../../utils/sendResponse";
-import { providerService } from "./provider.service";
+import { OrderStatus } from "../../generated/prisma/client.js";
+import { sendResponse } from "../../utils/sendResponse.js";
+import { providerService } from "./provider.service.js";
 
 
 

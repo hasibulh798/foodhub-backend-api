@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { sendResponse } from "../../utils/sendResponse";
-import { providerProfileServices } from "./providerProfile.service";
+import { sendResponse } from "../../utils/sendResponse.js";
+import { providerProfileServices } from "./providerProfile.service.js";
 
 // create provider
 const createProvider = async (req: Request, res: Response) => {

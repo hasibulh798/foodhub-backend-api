@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { mealService } from "./meal.service";
+import { mealService } from "./meal.service.js";
 
 // Meal creation
 // const createMeal = async (req: Request, res: Response) => {

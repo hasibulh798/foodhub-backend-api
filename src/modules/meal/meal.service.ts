@@ -2,9 +2,8 @@ import {
   DietaryType,
   Prisma,
   UserRole,
-} from "../../../generated/prisma/client";
-import { MealWhereInput } from "../../../generated/prisma/models";
-import { prisma } from "../../lib/prisma";
+} from "../../generated/prisma/client.js";
+import { prisma } from "../../lib/prisma.js";
 
 // Create meal
 const createMeal = async (
@@ -83,7 +82,7 @@ const getAllMeals = async (filter?: {
   // console.log("take: ", currentLimit);
   const skip = (currentPage - 1) * currentLimit;
 
-  const andConditions: MealWhereInput[] = [];
+  const andConditions: Prisma.MealWhereInput[] = [];
 
  if (categoryId && categoryId.trim() !== "") {
   andConditions.push({

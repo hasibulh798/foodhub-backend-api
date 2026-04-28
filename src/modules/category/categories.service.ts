@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma";
+import { prisma } from "../../lib/prisma.js";
 
 // Create category
 const createCategory = async (payload: { name: string; iconUrl?: string }) => {

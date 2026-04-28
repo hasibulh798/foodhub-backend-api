@@ -1,8 +1,8 @@
 import { Router } from "express";
 
-import { reviewRoutes } from "../review/review.route";
-import { mealController } from "./meal.controller";
-// import { reviewRoutes } from "../review/review.route";
+import { reviewRoutes } from "../review/review.route.js";
+import { mealController } from "./meal.controller.js";
+// import { reviewRoutes } from "../review/review.route.js";
 
 const router = Router();
 

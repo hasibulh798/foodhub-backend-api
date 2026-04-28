@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { auth } from "../../lib/auth";
-import { sendResponse } from "../../utils/sendResponse";
+import { auth } from "../../lib/auth.js";
+import { sendResponse } from "../../utils/sendResponse.js";
 
 const getProfile = async (req: Request, res: Response) => {
   try {

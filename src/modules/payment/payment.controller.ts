@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import * as paymentService from "./payment.service";
-import { sendResponse } from "../../utils/sendResponse";
+import * as paymentService from "./payment.service.js";
+import { sendResponse } from "../../utils/sendResponse.js";
 
 export const initiatePayment = async (req: Request, res: Response) => {
   try {

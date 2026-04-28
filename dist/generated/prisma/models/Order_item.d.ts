@@ -1,0 +1,1410 @@
+import type * as runtime from "@prisma/client/runtime/client";
+import type * as Prisma from "../internal/prismaNamespace.js";
+/**
+ * Model Order_item
+ *
+ */
+export type Order_itemModel = runtime.Types.Result.DefaultSelection<Prisma.$Order_itemPayload>;
+export type AggregateOrder_item = {
+    _count: Order_itemCountAggregateOutputType | null;
+    _avg: Order_itemAvgAggregateOutputType | null;
+    _sum: Order_itemSumAggregateOutputType | null;
+    _min: Order_itemMinAggregateOutputType | null;
+    _max: Order_itemMaxAggregateOutputType | null;
+};
+export type Order_itemAvgAggregateOutputType = {
+    quantity: number | null;
+    price: runtime.Decimal | null;
+};
+export type Order_itemSumAggregateOutputType = {
+    quantity: number | null;
+    price: runtime.Decimal | null;
+};
+export type Order_itemMinAggregateOutputType = {
+    id: string | null;
+    orderId: string | null;
+    mealId: string | null;
+    quantity: number | null;
+    price: runtime.Decimal | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+};
+export type Order_itemMaxAggregateOutputType = {
+    id: string | null;
+    orderId: string | null;
+    mealId: string | null;
+    quantity: number | null;
+    price: runtime.Decimal | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+};
+export type Order_itemCountAggregateOutputType = {
+    id: number;
+    orderId: number;
+    mealId: number;
+    quantity: number;
+    price: number;
+    createdAt: number;
+    updatedAt: number;
+    _all: number;
+};
+export type Order_itemAvgAggregateInputType = {
+    quantity?: true;
+    price?: true;
+};
+export type Order_itemSumAggregateInputType = {
+    quantity?: true;
+    price?: true;
+};
+export type Order_itemMinAggregateInputType = {
+    id?: true;
+    orderId?: true;
+    mealId?: true;
+    quantity?: true;
+    price?: true;
+    createdAt?: true;
+    updatedAt?: true;
+};
+export type Order_itemMaxAggregateInputType = {
+    id?: true;
+    orderId?: true;
+    mealId?: true;
+    quantity?: true;
+    price?: true;
+    createdAt?: true;
+    updatedAt?: true;
+};
+export type Order_itemCountAggregateInputType = {
+    id?: true;
+    orderId?: true;
+    mealId?: true;
+    quantity?: true;
+    price?: true;
+    createdAt?: true;
+    updatedAt?: true;
+    _all?: true;
+};
+export type Order_itemAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Filter which Order_item to aggregate.
+     */
+    where?: Prisma.Order_itemWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Order_items to fetch.
+     */
+    orderBy?: Prisma.Order_itemOrderByWithRelationInput | Prisma.Order_itemOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: Prisma.Order_itemWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Order_items from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Order_items.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned Order_items
+    **/
+    _count?: true | Order_itemCountAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to average
+    **/
+    _avg?: Order_itemAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+    **/
+    _sum?: Order_itemSumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+    **/
+    _min?: Order_itemMinAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+    **/
+    _max?: Order_itemMaxAggregateInputType;
+};
+export type GetOrder_itemAggregateType<T extends Order_itemAggregateArgs> = {
+    [P in keyof T & keyof AggregateOrder_item]: P extends '_count' | 'count' ? T[P] extends true ? number : Prisma.GetScalarType<T[P], AggregateOrder_item[P]> : Prisma.GetScalarType<T[P], AggregateOrder_item[P]>;
+};
+export type Order_itemGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.Order_itemWhereInput;
+    orderBy?: Prisma.Order_itemOrderByWithAggregationInput | Prisma.Order_itemOrderByWithAggregationInput[];
+    by: Prisma.Order_itemScalarFieldEnum[] | Prisma.Order_itemScalarFieldEnum;
+    having?: Prisma.Order_itemScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: Order_itemCountAggregateInputType | true;
+    _avg?: Order_itemAvgAggregateInputType;
+    _sum?: Order_itemSumAggregateInputType;
+    _min?: Order_itemMinAggregateInputType;
+    _max?: Order_itemMaxAggregateInputType;
+};
+export type Order_itemGroupByOutputType = {
+    id: string;
+    orderId: string;
+    mealId: string;
+    quantity: number;
+    price: runtime.Decimal;
+    createdAt: Date;
+    updatedAt: Date;
+    _count: Order_itemCountAggregateOutputType | null;
+    _avg: Order_itemAvgAggregateOutputType | null;
+    _sum: Order_itemSumAggregateOutputType | null;
+    _min: Order_itemMinAggregateOutputType | null;
+    _max: Order_itemMaxAggregateOutputType | null;
+};
+type GetOrder_itemGroupByPayload<T extends Order_itemGroupByArgs> = Prisma.PrismaPromise<Array<Prisma.PickEnumerable<Order_itemGroupByOutputType, T['by']> & {
+    [P in ((keyof T) & (keyof Order_itemGroupByOutputType))]: P extends '_count' ? T[P] extends boolean ? number : Prisma.GetScalarType<T[P], Order_itemGroupByOutputType[P]> : Prisma.GetScalarType<T[P], Order_itemGroupByOutputType[P]>;
+}>>;
+export type Order_itemWhereInput = {
+    AND?: Prisma.Order_itemWhereInput | Prisma.Order_itemWhereInput[];
+    OR?: Prisma.Order_itemWhereInput[];
+    NOT?: Prisma.Order_itemWhereInput | Prisma.Order_itemWhereInput[];
+    id?: Prisma.StringFilter<"Order_item"> | string;
+    orderId?: Prisma.StringFilter<"Order_item"> | string;
+    mealId?: Prisma.StringFilter<"Order_item"> | string;
+    quantity?: Prisma.IntFilter<"Order_item"> | number;
+    price?: Prisma.DecimalFilter<"Order_item"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFilter<"Order_item"> | Date | string;
+    updatedAt?: Prisma.DateTimeFilter<"Order_item"> | Date | string;
+    meal?: Prisma.XOR<Prisma.MealScalarRelationFilter, Prisma.MealWhereInput>;
+    order?: Prisma.XOR<Prisma.OrderScalarRelationFilter, Prisma.OrderWhereInput>;
+};
+export type Order_itemOrderByWithRelationInput = {
+    id?: Prisma.SortOrder;
+    orderId?: Prisma.SortOrder;
+    mealId?: Prisma.SortOrder;
+    quantity?: Prisma.SortOrder;
+    price?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
+    meal?: Prisma.MealOrderByWithRelationInput;
+    order?: Prisma.OrderOrderByWithRelationInput;
+};
+export type Order_itemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string;
+    AND?: Prisma.Order_itemWhereInput | Prisma.Order_itemWhereInput[];
+    OR?: Prisma.Order_itemWhereInput[];
+    NOT?: Prisma.Order_itemWhereInput | Prisma.Order_itemWhereInput[];
+    orderId?: Prisma.StringFilter<"Order_item"> | string;
+    mealId?: Prisma.StringFilter<"Order_item"> | string;
+    quantity?: Prisma.IntFilter<"Order_item"> | number;
+    price?: Prisma.DecimalFilter<"Order_item"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFilter<"Order_item"> | Date | string;
+    updatedAt?: Prisma.DateTimeFilter<"Order_item"> | Date | string;
+    meal?: Prisma.XOR<Prisma.MealScalarRelationFilter, Prisma.MealWhereInput>;
+    order?: Prisma.XOR<Prisma.OrderScalarRelationFilter, Prisma.OrderWhereInput>;
+}, "id">;
+export type Order_itemOrderByWithAggregationInput = {
+    id?: Prisma.SortOrder;
+    orderId?: Prisma.SortOrder;
+    mealId?: Prisma.SortOrder;
+    quantity?: Prisma.SortOrder;
+    price?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
+    _count?: Prisma.Order_itemCountOrderByAggregateInput;
+    _avg?: Prisma.Order_itemAvgOrderByAggregateInput;
+    _max?: Prisma.Order_itemMaxOrderByAggregateInput;
+    _min?: Prisma.Order_itemMinOrderByAggregateInput;
+    _sum?: Prisma.Order_itemSumOrderByAggregateInput;
+};
+export type Order_itemScalarWhereWithAggregatesInput = {
+    AND?: Prisma.Order_itemScalarWhereWithAggregatesInput | Prisma.Order_itemScalarWhereWithAggregatesInput[];
+    OR?: Prisma.Order_itemScalarWhereWithAggregatesInput[];
+    NOT?: Prisma.Order_itemScalarWhereWithAggregatesInput | Prisma.Order_itemScalarWhereWithAggregatesInput[];
+    id?: Prisma.StringWithAggregatesFilter<"Order_item"> | string;
+    orderId?: Prisma.StringWithAggregatesFilter<"Order_item"> | string;
+    mealId?: Prisma.StringWithAggregatesFilter<"Order_item"> | string;
+    quantity?: Prisma.IntWithAggregatesFilter<"Order_item"> | number;
+    price?: Prisma.DecimalWithAggregatesFilter<"Order_item"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeWithAggregatesFilter<"Order_item"> | Date | string;
+    updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Order_item"> | Date | string;
+};
+export type Order_itemCreateInput = {
+    id?: string;
+    quantity?: number;
+    price: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    meal: Prisma.MealCreateNestedOneWithoutOrder_itemsInput;
+    order: Prisma.OrderCreateNestedOneWithoutOrderItemsInput;
+};
+export type Order_itemUncheckedCreateInput = {
+    id?: string;
+    orderId: string;
+    mealId: string;
+    quantity?: number;
+    price: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+};
+export type Order_itemUpdateInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    meal?: Prisma.MealUpdateOneRequiredWithoutOrder_itemsNestedInput;
+    order?: Prisma.OrderUpdateOneRequiredWithoutOrderItemsNestedInput;
+};
+export type Order_itemUncheckedUpdateInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    orderId?: Prisma.StringFieldUpdateOperationsInput | string;
+    mealId?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type Order_itemCreateManyInput = {
+    id?: string;
+    orderId: string;
+    mealId: string;
+    quantity?: number;
+    price: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+};
+export type Order_itemUpdateManyMutationInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type Order_itemUncheckedUpdateManyInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    orderId?: Prisma.StringFieldUpdateOperationsInput | string;
+    mealId?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type Order_itemListRelationFilter = {
+    every?: Prisma.Order_itemWhereInput;
+    some?: Prisma.Order_itemWhereInput;
+    none?: Prisma.Order_itemWhereInput;
+};
+export type Order_itemOrderByRelationAggregateInput = {
+    _count?: Prisma.SortOrder;
+};
+export type Order_itemCountOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    orderId?: Prisma.SortOrder;
+    mealId?: Prisma.SortOrder;
+    quantity?: Prisma.SortOrder;
+    price?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
+};
+export type Order_itemAvgOrderByAggregateInput = {
+    quantity?: Prisma.SortOrder;
+    price?: Prisma.SortOrder;
+};
+export type Order_itemMaxOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    orderId?: Prisma.SortOrder;
+    mealId?: Prisma.SortOrder;
+    quantity?: Prisma.SortOrder;
+    price?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
+};
+export type Order_itemMinOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    orderId?: Prisma.SortOrder;
+    mealId?: Prisma.SortOrder;
+    quantity?: Prisma.SortOrder;
+    price?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    updatedAt?: Prisma.SortOrder;
+};
+export type Order_itemSumOrderByAggregateInput = {
+    quantity?: Prisma.SortOrder;
+    price?: Prisma.SortOrder;
+};
+export type Order_itemCreateNestedManyWithoutMealInput = {
+    create?: Prisma.XOR<Prisma.Order_itemCreateWithoutMealInput, Prisma.Order_itemUncheckedCreateWithoutMealInput> | Prisma.Order_itemCreateWithoutMealInput[] | Prisma.Order_itemUncheckedCreateWithoutMealInput[];
+    connectOrCreate?: Prisma.Order_itemCreateOrConnectWithoutMealInput | Prisma.Order_itemCreateOrConnectWithoutMealInput[];
+    createMany?: Prisma.Order_itemCreateManyMealInputEnvelope;
+    connect?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+};
+export type Order_itemUncheckedCreateNestedManyWithoutMealInput = {
+    create?: Prisma.XOR<Prisma.Order_itemCreateWithoutMealInput, Prisma.Order_itemUncheckedCreateWithoutMealInput> | Prisma.Order_itemCreateWithoutMealInput[] | Prisma.Order_itemUncheckedCreateWithoutMealInput[];
+    connectOrCreate?: Prisma.Order_itemCreateOrConnectWithoutMealInput | Prisma.Order_itemCreateOrConnectWithoutMealInput[];
+    createMany?: Prisma.Order_itemCreateManyMealInputEnvelope;
+    connect?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+};
+export type Order_itemUpdateManyWithoutMealNestedInput = {
+    create?: Prisma.XOR<Prisma.Order_itemCreateWithoutMealInput, Prisma.Order_itemUncheckedCreateWithoutMealInput> | Prisma.Order_itemCreateWithoutMealInput[] | Prisma.Order_itemUncheckedCreateWithoutMealInput[];
+    connectOrCreate?: Prisma.Order_itemCreateOrConnectWithoutMealInput | Prisma.Order_itemCreateOrConnectWithoutMealInput[];
+    upsert?: Prisma.Order_itemUpsertWithWhereUniqueWithoutMealInput | Prisma.Order_itemUpsertWithWhereUniqueWithoutMealInput[];
+    createMany?: Prisma.Order_itemCreateManyMealInputEnvelope;
+    set?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    disconnect?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    delete?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    connect?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    update?: Prisma.Order_itemUpdateWithWhereUniqueWithoutMealInput | Prisma.Order_itemUpdateWithWhereUniqueWithoutMealInput[];
+    updateMany?: Prisma.Order_itemUpdateManyWithWhereWithoutMealInput | Prisma.Order_itemUpdateManyWithWhereWithoutMealInput[];
+    deleteMany?: Prisma.Order_itemScalarWhereInput | Prisma.Order_itemScalarWhereInput[];
+};
+export type Order_itemUncheckedUpdateManyWithoutMealNestedInput = {
+    create?: Prisma.XOR<Prisma.Order_itemCreateWithoutMealInput, Prisma.Order_itemUncheckedCreateWithoutMealInput> | Prisma.Order_itemCreateWithoutMealInput[] | Prisma.Order_itemUncheckedCreateWithoutMealInput[];
+    connectOrCreate?: Prisma.Order_itemCreateOrConnectWithoutMealInput | Prisma.Order_itemCreateOrConnectWithoutMealInput[];
+    upsert?: Prisma.Order_itemUpsertWithWhereUniqueWithoutMealInput | Prisma.Order_itemUpsertWithWhereUniqueWithoutMealInput[];
+    createMany?: Prisma.Order_itemCreateManyMealInputEnvelope;
+    set?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    disconnect?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    delete?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    connect?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    update?: Prisma.Order_itemUpdateWithWhereUniqueWithoutMealInput | Prisma.Order_itemUpdateWithWhereUniqueWithoutMealInput[];
+    updateMany?: Prisma.Order_itemUpdateManyWithWhereWithoutMealInput | Prisma.Order_itemUpdateManyWithWhereWithoutMealInput[];
+    deleteMany?: Prisma.Order_itemScalarWhereInput | Prisma.Order_itemScalarWhereInput[];
+};
+export type Order_itemCreateNestedManyWithoutOrderInput = {
+    create?: Prisma.XOR<Prisma.Order_itemCreateWithoutOrderInput, Prisma.Order_itemUncheckedCreateWithoutOrderInput> | Prisma.Order_itemCreateWithoutOrderInput[] | Prisma.Order_itemUncheckedCreateWithoutOrderInput[];
+    connectOrCreate?: Prisma.Order_itemCreateOrConnectWithoutOrderInput | Prisma.Order_itemCreateOrConnectWithoutOrderInput[];
+    createMany?: Prisma.Order_itemCreateManyOrderInputEnvelope;
+    connect?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+};
+export type Order_itemUncheckedCreateNestedManyWithoutOrderInput = {
+    create?: Prisma.XOR<Prisma.Order_itemCreateWithoutOrderInput, Prisma.Order_itemUncheckedCreateWithoutOrderInput> | Prisma.Order_itemCreateWithoutOrderInput[] | Prisma.Order_itemUncheckedCreateWithoutOrderInput[];
+    connectOrCreate?: Prisma.Order_itemCreateOrConnectWithoutOrderInput | Prisma.Order_itemCreateOrConnectWithoutOrderInput[];
+    createMany?: Prisma.Order_itemCreateManyOrderInputEnvelope;
+    connect?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+};
+export type Order_itemUpdateManyWithoutOrderNestedInput = {
+    create?: Prisma.XOR<Prisma.Order_itemCreateWithoutOrderInput, Prisma.Order_itemUncheckedCreateWithoutOrderInput> | Prisma.Order_itemCreateWithoutOrderInput[] | Prisma.Order_itemUncheckedCreateWithoutOrderInput[];
+    connectOrCreate?: Prisma.Order_itemCreateOrConnectWithoutOrderInput | Prisma.Order_itemCreateOrConnectWithoutOrderInput[];
+    upsert?: Prisma.Order_itemUpsertWithWhereUniqueWithoutOrderInput | Prisma.Order_itemUpsertWithWhereUniqueWithoutOrderInput[];
+    createMany?: Prisma.Order_itemCreateManyOrderInputEnvelope;
+    set?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    disconnect?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    delete?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    connect?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    update?: Prisma.Order_itemUpdateWithWhereUniqueWithoutOrderInput | Prisma.Order_itemUpdateWithWhereUniqueWithoutOrderInput[];
+    updateMany?: Prisma.Order_itemUpdateManyWithWhereWithoutOrderInput | Prisma.Order_itemUpdateManyWithWhereWithoutOrderInput[];
+    deleteMany?: Prisma.Order_itemScalarWhereInput | Prisma.Order_itemScalarWhereInput[];
+};
+export type Order_itemUncheckedUpdateManyWithoutOrderNestedInput = {
+    create?: Prisma.XOR<Prisma.Order_itemCreateWithoutOrderInput, Prisma.Order_itemUncheckedCreateWithoutOrderInput> | Prisma.Order_itemCreateWithoutOrderInput[] | Prisma.Order_itemUncheckedCreateWithoutOrderInput[];
+    connectOrCreate?: Prisma.Order_itemCreateOrConnectWithoutOrderInput | Prisma.Order_itemCreateOrConnectWithoutOrderInput[];
+    upsert?: Prisma.Order_itemUpsertWithWhereUniqueWithoutOrderInput | Prisma.Order_itemUpsertWithWhereUniqueWithoutOrderInput[];
+    createMany?: Prisma.Order_itemCreateManyOrderInputEnvelope;
+    set?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    disconnect?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    delete?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    connect?: Prisma.Order_itemWhereUniqueInput | Prisma.Order_itemWhereUniqueInput[];
+    update?: Prisma.Order_itemUpdateWithWhereUniqueWithoutOrderInput | Prisma.Order_itemUpdateWithWhereUniqueWithoutOrderInput[];
+    updateMany?: Prisma.Order_itemUpdateManyWithWhereWithoutOrderInput | Prisma.Order_itemUpdateManyWithWhereWithoutOrderInput[];
+    deleteMany?: Prisma.Order_itemScalarWhereInput | Prisma.Order_itemScalarWhereInput[];
+};
+export type IntFieldUpdateOperationsInput = {
+    set?: number;
+    increment?: number;
+    decrement?: number;
+    multiply?: number;
+    divide?: number;
+};
+export type Order_itemCreateWithoutMealInput = {
+    id?: string;
+    quantity?: number;
+    price: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    order: Prisma.OrderCreateNestedOneWithoutOrderItemsInput;
+};
+export type Order_itemUncheckedCreateWithoutMealInput = {
+    id?: string;
+    orderId: string;
+    quantity?: number;
+    price: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+};
+export type Order_itemCreateOrConnectWithoutMealInput = {
+    where: Prisma.Order_itemWhereUniqueInput;
+    create: Prisma.XOR<Prisma.Order_itemCreateWithoutMealInput, Prisma.Order_itemUncheckedCreateWithoutMealInput>;
+};
+export type Order_itemCreateManyMealInputEnvelope = {
+    data: Prisma.Order_itemCreateManyMealInput | Prisma.Order_itemCreateManyMealInput[];
+    skipDuplicates?: boolean;
+};
+export type Order_itemUpsertWithWhereUniqueWithoutMealInput = {
+    where: Prisma.Order_itemWhereUniqueInput;
+    update: Prisma.XOR<Prisma.Order_itemUpdateWithoutMealInput, Prisma.Order_itemUncheckedUpdateWithoutMealInput>;
+    create: Prisma.XOR<Prisma.Order_itemCreateWithoutMealInput, Prisma.Order_itemUncheckedCreateWithoutMealInput>;
+};
+export type Order_itemUpdateWithWhereUniqueWithoutMealInput = {
+    where: Prisma.Order_itemWhereUniqueInput;
+    data: Prisma.XOR<Prisma.Order_itemUpdateWithoutMealInput, Prisma.Order_itemUncheckedUpdateWithoutMealInput>;
+};
+export type Order_itemUpdateManyWithWhereWithoutMealInput = {
+    where: Prisma.Order_itemScalarWhereInput;
+    data: Prisma.XOR<Prisma.Order_itemUpdateManyMutationInput, Prisma.Order_itemUncheckedUpdateManyWithoutMealInput>;
+};
+export type Order_itemScalarWhereInput = {
+    AND?: Prisma.Order_itemScalarWhereInput | Prisma.Order_itemScalarWhereInput[];
+    OR?: Prisma.Order_itemScalarWhereInput[];
+    NOT?: Prisma.Order_itemScalarWhereInput | Prisma.Order_itemScalarWhereInput[];
+    id?: Prisma.StringFilter<"Order_item"> | string;
+    orderId?: Prisma.StringFilter<"Order_item"> | string;
+    mealId?: Prisma.StringFilter<"Order_item"> | string;
+    quantity?: Prisma.IntFilter<"Order_item"> | number;
+    price?: Prisma.DecimalFilter<"Order_item"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFilter<"Order_item"> | Date | string;
+    updatedAt?: Prisma.DateTimeFilter<"Order_item"> | Date | string;
+};
+export type Order_itemCreateWithoutOrderInput = {
+    id?: string;
+    quantity?: number;
+    price: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    meal: Prisma.MealCreateNestedOneWithoutOrder_itemsInput;
+};
+export type Order_itemUncheckedCreateWithoutOrderInput = {
+    id?: string;
+    mealId: string;
+    quantity?: number;
+    price: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+};
+export type Order_itemCreateOrConnectWithoutOrderInput = {
+    where: Prisma.Order_itemWhereUniqueInput;
+    create: Prisma.XOR<Prisma.Order_itemCreateWithoutOrderInput, Prisma.Order_itemUncheckedCreateWithoutOrderInput>;
+};
+export type Order_itemCreateManyOrderInputEnvelope = {
+    data: Prisma.Order_itemCreateManyOrderInput | Prisma.Order_itemCreateManyOrderInput[];
+    skipDuplicates?: boolean;
+};
+export type Order_itemUpsertWithWhereUniqueWithoutOrderInput = {
+    where: Prisma.Order_itemWhereUniqueInput;
+    update: Prisma.XOR<Prisma.Order_itemUpdateWithoutOrderInput, Prisma.Order_itemUncheckedUpdateWithoutOrderInput>;
+    create: Prisma.XOR<Prisma.Order_itemCreateWithoutOrderInput, Prisma.Order_itemUncheckedCreateWithoutOrderInput>;
+};
+export type Order_itemUpdateWithWhereUniqueWithoutOrderInput = {
+    where: Prisma.Order_itemWhereUniqueInput;
+    data: Prisma.XOR<Prisma.Order_itemUpdateWithoutOrderInput, Prisma.Order_itemUncheckedUpdateWithoutOrderInput>;
+};
+export type Order_itemUpdateManyWithWhereWithoutOrderInput = {
+    where: Prisma.Order_itemScalarWhereInput;
+    data: Prisma.XOR<Prisma.Order_itemUpdateManyMutationInput, Prisma.Order_itemUncheckedUpdateManyWithoutOrderInput>;
+};
+export type Order_itemCreateManyMealInput = {
+    id?: string;
+    orderId: string;
+    quantity?: number;
+    price: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+};
+export type Order_itemUpdateWithoutMealInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    order?: Prisma.OrderUpdateOneRequiredWithoutOrderItemsNestedInput;
+};
+export type Order_itemUncheckedUpdateWithoutMealInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    orderId?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type Order_itemUncheckedUpdateManyWithoutMealInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    orderId?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type Order_itemCreateManyOrderInput = {
+    id?: string;
+    mealId: string;
+    quantity?: number;
+    price: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+};
+export type Order_itemUpdateWithoutOrderInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    meal?: Prisma.MealUpdateOneRequiredWithoutOrder_itemsNestedInput;
+};
+export type Order_itemUncheckedUpdateWithoutOrderInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    mealId?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type Order_itemUncheckedUpdateManyWithoutOrderInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    mealId?: Prisma.StringFieldUpdateOperationsInput | string;
+    quantity?: Prisma.IntFieldUpdateOperationsInput | number;
+    price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+export type Order_itemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    orderId?: boolean;
+    mealId?: boolean;
+    quantity?: boolean;
+    price?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+    meal?: boolean | Prisma.MealDefaultArgs<ExtArgs>;
+    order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["order_item"]>;
+export type Order_itemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    orderId?: boolean;
+    mealId?: boolean;
+    quantity?: boolean;
+    price?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+    meal?: boolean | Prisma.MealDefaultArgs<ExtArgs>;
+    order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["order_item"]>;
+export type Order_itemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+    id?: boolean;
+    orderId?: boolean;
+    mealId?: boolean;
+    quantity?: boolean;
+    price?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+    meal?: boolean | Prisma.MealDefaultArgs<ExtArgs>;
+    order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>;
+}, ExtArgs["result"]["order_item"]>;
+export type Order_itemSelectScalar = {
+    id?: boolean;
+    orderId?: boolean;
+    mealId?: boolean;
+    quantity?: boolean;
+    price?: boolean;
+    createdAt?: boolean;
+    updatedAt?: boolean;
+};
+export type Order_itemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderId" | "mealId" | "quantity" | "price" | "createdAt" | "updatedAt", ExtArgs["result"]["order_item"]>;
+export type Order_itemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    meal?: boolean | Prisma.MealDefaultArgs<ExtArgs>;
+    order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>;
+};
+export type Order_itemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    meal?: boolean | Prisma.MealDefaultArgs<ExtArgs>;
+    order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>;
+};
+export type Order_itemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    meal?: boolean | Prisma.MealDefaultArgs<ExtArgs>;
+    order?: boolean | Prisma.OrderDefaultArgs<ExtArgs>;
+};
+export type $Order_itemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    name: "Order_item";
+    objects: {
+        meal: Prisma.$MealPayload<ExtArgs>;
+        order: Prisma.$OrderPayload<ExtArgs>;
+    };
+    scalars: runtime.Types.Extensions.GetPayloadResult<{
+        id: string;
+        orderId: string;
+        mealId: string;
+        quantity: number;
+        price: runtime.Decimal;
+        createdAt: Date;
+        updatedAt: Date;
+    }, ExtArgs["result"]["order_item"]>;
+    composites: {};
+};
+export type Order_itemGetPayload<S extends boolean | null | undefined | Order_itemDefaultArgs> = runtime.Types.Result.GetResult<Prisma.$Order_itemPayload, S>;
+export type Order_itemCountArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = Omit<Order_itemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+    select?: Order_itemCountAggregateInputType | true;
+};
+export interface Order_itemDelegate<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: {
+        types: Prisma.TypeMap<ExtArgs>['model']['Order_item'];
+        meta: {
+            name: 'Order_item';
+        };
+    };
+    /**
+     * Find zero or one Order_item that matches the filter.
+     * @param {Order_itemFindUniqueArgs} args - Arguments to find a Order_item
+     * @example
+     * // Get one Order_item
+     * const order_item = await prisma.order_item.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends Order_itemFindUniqueArgs>(args: Prisma.SelectSubset<T, Order_itemFindUniqueArgs<ExtArgs>>): Prisma.Prisma__Order_itemClient<runtime.Types.Result.GetResult<Prisma.$Order_itemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find one Order_item that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {Order_itemFindUniqueOrThrowArgs} args - Arguments to find a Order_item
+     * @example
+     * // Get one Order_item
+     * const order_item = await prisma.order_item.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends Order_itemFindUniqueOrThrowArgs>(args: Prisma.SelectSubset<T, Order_itemFindUniqueOrThrowArgs<ExtArgs>>): Prisma.Prisma__Order_itemClient<runtime.Types.Result.GetResult<Prisma.$Order_itemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find the first Order_item that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Order_itemFindFirstArgs} args - Arguments to find a Order_item
+     * @example
+     * // Get one Order_item
+     * const order_item = await prisma.order_item.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends Order_itemFindFirstArgs>(args?: Prisma.SelectSubset<T, Order_itemFindFirstArgs<ExtArgs>>): Prisma.Prisma__Order_itemClient<runtime.Types.Result.GetResult<Prisma.$Order_itemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find the first Order_item that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Order_itemFindFirstOrThrowArgs} args - Arguments to find a Order_item
+     * @example
+     * // Get one Order_item
+     * const order_item = await prisma.order_item.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends Order_itemFindFirstOrThrowArgs>(args?: Prisma.SelectSubset<T, Order_itemFindFirstOrThrowArgs<ExtArgs>>): Prisma.Prisma__Order_itemClient<runtime.Types.Result.GetResult<Prisma.$Order_itemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Find zero or more Order_items that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Order_itemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Order_items
+     * const order_items = await prisma.order_item.findMany()
+     *
+     * // Get first 10 Order_items
+     * const order_items = await prisma.order_item.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const order_itemWithIdOnly = await prisma.order_item.findMany({ select: { id: true } })
+     *
+     */
+    findMany<T extends Order_itemFindManyArgs>(args?: Prisma.SelectSubset<T, Order_itemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Order_itemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>;
+    /**
+     * Create a Order_item.
+     * @param {Order_itemCreateArgs} args - Arguments to create a Order_item.
+     * @example
+     * // Create one Order_item
+     * const Order_item = await prisma.order_item.create({
+     *   data: {
+     *     // ... data to create a Order_item
+     *   }
+     * })
+     *
+     */
+    create<T extends Order_itemCreateArgs>(args: Prisma.SelectSubset<T, Order_itemCreateArgs<ExtArgs>>): Prisma.Prisma__Order_itemClient<runtime.Types.Result.GetResult<Prisma.$Order_itemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Create many Order_items.
+     * @param {Order_itemCreateManyArgs} args - Arguments to create many Order_items.
+     * @example
+     * // Create many Order_items
+     * const order_item = await prisma.order_item.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     */
+    createMany<T extends Order_itemCreateManyArgs>(args?: Prisma.SelectSubset<T, Order_itemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    /**
+     * Create many Order_items and returns the data saved in the database.
+     * @param {Order_itemCreateManyAndReturnArgs} args - Arguments to create many Order_items.
+     * @example
+     * // Create many Order_items
+     * const order_item = await prisma.order_item.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Create many Order_items and only return the `id`
+     * const order_itemWithIdOnly = await prisma.order_item.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    createManyAndReturn<T extends Order_itemCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, Order_itemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Order_itemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>;
+    /**
+     * Delete a Order_item.
+     * @param {Order_itemDeleteArgs} args - Arguments to delete one Order_item.
+     * @example
+     * // Delete one Order_item
+     * const Order_item = await prisma.order_item.delete({
+     *   where: {
+     *     // ... filter to delete one Order_item
+     *   }
+     * })
+     *
+     */
+    delete<T extends Order_itemDeleteArgs>(args: Prisma.SelectSubset<T, Order_itemDeleteArgs<ExtArgs>>): Prisma.Prisma__Order_itemClient<runtime.Types.Result.GetResult<Prisma.$Order_itemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Update one Order_item.
+     * @param {Order_itemUpdateArgs} args - Arguments to update one Order_item.
+     * @example
+     * // Update one Order_item
+     * const order_item = await prisma.order_item.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    update<T extends Order_itemUpdateArgs>(args: Prisma.SelectSubset<T, Order_itemUpdateArgs<ExtArgs>>): Prisma.Prisma__Order_itemClient<runtime.Types.Result.GetResult<Prisma.$Order_itemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Delete zero or more Order_items.
+     * @param {Order_itemDeleteManyArgs} args - Arguments to filter Order_items to delete.
+     * @example
+     * // Delete a few Order_items
+     * const { count } = await prisma.order_item.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     */
+    deleteMany<T extends Order_itemDeleteManyArgs>(args?: Prisma.SelectSubset<T, Order_itemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    /**
+     * Update zero or more Order_items.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Order_itemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Order_items
+     * const order_item = await prisma.order_item.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     */
+    updateMany<T extends Order_itemUpdateManyArgs>(args: Prisma.SelectSubset<T, Order_itemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>;
+    /**
+     * Update zero or more Order_items and returns the data updated in the database.
+     * @param {Order_itemUpdateManyAndReturnArgs} args - Arguments to update many Order_items.
+     * @example
+     * // Update many Order_items
+     * const order_item = await prisma.order_item.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *
+     * // Update zero or more Order_items and only return the `id`
+     * const order_itemWithIdOnly = await prisma.order_item.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     *
+     */
+    updateManyAndReturn<T extends Order_itemUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, Order_itemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Order_itemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>;
+    /**
+     * Create or update one Order_item.
+     * @param {Order_itemUpsertArgs} args - Arguments to update or create a Order_item.
+     * @example
+     * // Update or create a Order_item
+     * const order_item = await prisma.order_item.upsert({
+     *   create: {
+     *     // ... data to create a Order_item
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Order_item we want to update
+     *   }
+     * })
+     */
+    upsert<T extends Order_itemUpsertArgs>(args: Prisma.SelectSubset<T, Order_itemUpsertArgs<ExtArgs>>): Prisma.Prisma__Order_itemClient<runtime.Types.Result.GetResult<Prisma.$Order_itemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Count the number of Order_items.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Order_itemCountArgs} args - Arguments to filter Order_items to count.
+     * @example
+     * // Count the number of Order_items
+     * const count = await prisma.order_item.count({
+     *   where: {
+     *     // ... the filter for the Order_items we want to count
+     *   }
+     * })
+    **/
+    count<T extends Order_itemCountArgs>(args?: Prisma.Subset<T, Order_itemCountArgs>): Prisma.PrismaPromise<T extends runtime.Types.Utils.Record<'select', any> ? T['select'] extends true ? number : Prisma.GetScalarType<T['select'], Order_itemCountAggregateOutputType> : number>;
+    /**
+     * Allows you to perform aggregations operations on a Order_item.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Order_itemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Order_itemAggregateArgs>(args: Prisma.Subset<T, Order_itemAggregateArgs>): Prisma.PrismaPromise<GetOrder_itemAggregateType<T>>;
+    /**
+     * Group by Order_item.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Order_itemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+    **/
+    groupBy<T extends Order_itemGroupByArgs, HasSelectOrTake extends Prisma.Or<Prisma.Extends<'skip', Prisma.Keys<T>>, Prisma.Extends<'take', Prisma.Keys<T>>>, OrderByArg extends Prisma.True extends HasSelectOrTake ? {
+        orderBy: Order_itemGroupByArgs['orderBy'];
+    } : {
+        orderBy?: Order_itemGroupByArgs['orderBy'];
+    }, OrderFields extends Prisma.ExcludeUnderscoreKeys<Prisma.Keys<Prisma.MaybeTupleToUnion<T['orderBy']>>>, ByFields extends Prisma.MaybeTupleToUnion<T['by']>, ByValid extends Prisma.Has<ByFields, OrderFields>, HavingFields extends Prisma.GetHavingFields<T['having']>, HavingValid extends Prisma.Has<ByFields, HavingFields>, ByEmpty extends T['by'] extends never[] ? Prisma.True : Prisma.False, InputErrors extends ByEmpty extends Prisma.True ? `Error: "by" must not be empty.` : HavingValid extends Prisma.False ? {
+        [P in HavingFields]: P extends ByFields ? never : P extends string ? `Error: Field "${P}" used in "having" needs to be provided in "by".` : [
+            Error,
+            'Field ',
+            P,
+            ` in "having" needs to be provided in "by"`
+        ];
+    }[HavingFields] : 'take' extends Prisma.Keys<T> ? 'orderBy' extends Prisma.Keys<T> ? ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields] : 'Error: If you provide "take", you also need to provide "orderBy"' : 'skip' extends Prisma.Keys<T> ? 'orderBy' extends Prisma.Keys<T> ? ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields] : 'Error: If you provide "skip", you also need to provide "orderBy"' : ByValid extends Prisma.True ? {} : {
+        [P in OrderFields]: P extends ByFields ? never : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+    }[OrderFields]>(args: Prisma.SubsetIntersection<T, Order_itemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOrder_itemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the Order_item model
+     */
+    readonly fields: Order_itemFieldRefs;
+}
+/**
+ * The delegate class that acts as a "Promise-like" for Order_item.
+ * Why is this prefixed with `Prisma__`?
+ * Because we want to prevent naming conflicts as mentioned in
+ * https://github.com/prisma/prisma-client-js/issues/707
+ */
+export interface Prisma__Order_itemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise";
+    meal<T extends Prisma.MealDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MealDefaultArgs<ExtArgs>>): Prisma.Prisma__MealClient<runtime.Types.Result.GetResult<Prisma.$MealPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    order<T extends Prisma.OrderDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrderDefaultArgs<ExtArgs>>): Prisma.Prisma__OrderClient<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): runtime.Types.Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): runtime.Types.Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): runtime.Types.Utils.JsPromise<T>;
+}
+/**
+ * Fields of the Order_item model
+ */
+export interface Order_itemFieldRefs {
+    readonly id: Prisma.FieldRef<"Order_item", 'String'>;
+    readonly orderId: Prisma.FieldRef<"Order_item", 'String'>;
+    readonly mealId: Prisma.FieldRef<"Order_item", 'String'>;
+    readonly quantity: Prisma.FieldRef<"Order_item", 'Int'>;
+    readonly price: Prisma.FieldRef<"Order_item", 'Decimal'>;
+    readonly createdAt: Prisma.FieldRef<"Order_item", 'DateTime'>;
+    readonly updatedAt: Prisma.FieldRef<"Order_item", 'DateTime'>;
+}
+/**
+ * Order_item findUnique
+ */
+export type Order_itemFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order_item
+     */
+    select?: Prisma.Order_itemSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Order_item
+     */
+    omit?: Prisma.Order_itemOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.Order_itemInclude<ExtArgs> | null;
+    /**
+     * Filter, which Order_item to fetch.
+     */
+    where: Prisma.Order_itemWhereUniqueInput;
+};
+/**
+ * Order_item findUniqueOrThrow
+ */
+export type Order_itemFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order_item
+     */
+    select?: Prisma.Order_itemSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Order_item
+     */
+    omit?: Prisma.Order_itemOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.Order_itemInclude<ExtArgs> | null;
+    /**
+     * Filter, which Order_item to fetch.
+     */
+    where: Prisma.Order_itemWhereUniqueInput;
+};
+/**
+ * Order_item findFirst
+ */
+export type Order_itemFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order_item
+     */
+    select?: Prisma.Order_itemSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Order_item
+     */
+    omit?: Prisma.Order_itemOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.Order_itemInclude<ExtArgs> | null;
+    /**
+     * Filter, which Order_item to fetch.
+     */
+    where?: Prisma.Order_itemWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Order_items to fetch.
+     */
+    orderBy?: Prisma.Order_itemOrderByWithRelationInput | Prisma.Order_itemOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for Order_items.
+     */
+    cursor?: Prisma.Order_itemWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Order_items from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Order_items.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of Order_items.
+     */
+    distinct?: Prisma.Order_itemScalarFieldEnum | Prisma.Order_itemScalarFieldEnum[];
+};
+/**
+ * Order_item findFirstOrThrow
+ */
+export type Order_itemFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order_item
+     */
+    select?: Prisma.Order_itemSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Order_item
+     */
+    omit?: Prisma.Order_itemOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.Order_itemInclude<ExtArgs> | null;
+    /**
+     * Filter, which Order_item to fetch.
+     */
+    where?: Prisma.Order_itemWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Order_items to fetch.
+     */
+    orderBy?: Prisma.Order_itemOrderByWithRelationInput | Prisma.Order_itemOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for Order_items.
+     */
+    cursor?: Prisma.Order_itemWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Order_items from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Order_items.
+     */
+    skip?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of Order_items.
+     */
+    distinct?: Prisma.Order_itemScalarFieldEnum | Prisma.Order_itemScalarFieldEnum[];
+};
+/**
+ * Order_item findMany
+ */
+export type Order_itemFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order_item
+     */
+    select?: Prisma.Order_itemSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Order_item
+     */
+    omit?: Prisma.Order_itemOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.Order_itemInclude<ExtArgs> | null;
+    /**
+     * Filter, which Order_items to fetch.
+     */
+    where?: Prisma.Order_itemWhereInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Order_items to fetch.
+     */
+    orderBy?: Prisma.Order_itemOrderByWithRelationInput | Prisma.Order_itemOrderByWithRelationInput[];
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing Order_items.
+     */
+    cursor?: Prisma.Order_itemWhereUniqueInput;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Order_items from the position of the cursor.
+     */
+    take?: number;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Order_items.
+     */
+    skip?: number;
+    distinct?: Prisma.Order_itemScalarFieldEnum | Prisma.Order_itemScalarFieldEnum[];
+};
+/**
+ * Order_item create
+ */
+export type Order_itemCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order_item
+     */
+    select?: Prisma.Order_itemSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Order_item
+     */
+    omit?: Prisma.Order_itemOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.Order_itemInclude<ExtArgs> | null;
+    /**
+     * The data needed to create a Order_item.
+     */
+    data: Prisma.XOR<Prisma.Order_itemCreateInput, Prisma.Order_itemUncheckedCreateInput>;
+};
+/**
+ * Order_item createMany
+ */
+export type Order_itemCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Order_items.
+     */
+    data: Prisma.Order_itemCreateManyInput | Prisma.Order_itemCreateManyInput[];
+    skipDuplicates?: boolean;
+};
+/**
+ * Order_item createManyAndReturn
+ */
+export type Order_itemCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order_item
+     */
+    select?: Prisma.Order_itemSelectCreateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Order_item
+     */
+    omit?: Prisma.Order_itemOmit<ExtArgs> | null;
+    /**
+     * The data used to create many Order_items.
+     */
+    data: Prisma.Order_itemCreateManyInput | Prisma.Order_itemCreateManyInput[];
+    skipDuplicates?: boolean;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.Order_itemIncludeCreateManyAndReturn<ExtArgs> | null;
+};
+/**
+ * Order_item update
+ */
+export type Order_itemUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order_item
+     */
+    select?: Prisma.Order_itemSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Order_item
+     */
+    omit?: Prisma.Order_itemOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.Order_itemInclude<ExtArgs> | null;
+    /**
+     * The data needed to update a Order_item.
+     */
+    data: Prisma.XOR<Prisma.Order_itemUpdateInput, Prisma.Order_itemUncheckedUpdateInput>;
+    /**
+     * Choose, which Order_item to update.
+     */
+    where: Prisma.Order_itemWhereUniqueInput;
+};
+/**
+ * Order_item updateMany
+ */
+export type Order_itemUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Order_items.
+     */
+    data: Prisma.XOR<Prisma.Order_itemUpdateManyMutationInput, Prisma.Order_itemUncheckedUpdateManyInput>;
+    /**
+     * Filter which Order_items to update
+     */
+    where?: Prisma.Order_itemWhereInput;
+    /**
+     * Limit how many Order_items to update.
+     */
+    limit?: number;
+};
+/**
+ * Order_item updateManyAndReturn
+ */
+export type Order_itemUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order_item
+     */
+    select?: Prisma.Order_itemSelectUpdateManyAndReturn<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Order_item
+     */
+    omit?: Prisma.Order_itemOmit<ExtArgs> | null;
+    /**
+     * The data used to update Order_items.
+     */
+    data: Prisma.XOR<Prisma.Order_itemUpdateManyMutationInput, Prisma.Order_itemUncheckedUpdateManyInput>;
+    /**
+     * Filter which Order_items to update
+     */
+    where?: Prisma.Order_itemWhereInput;
+    /**
+     * Limit how many Order_items to update.
+     */
+    limit?: number;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.Order_itemIncludeUpdateManyAndReturn<ExtArgs> | null;
+};
+/**
+ * Order_item upsert
+ */
+export type Order_itemUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order_item
+     */
+    select?: Prisma.Order_itemSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Order_item
+     */
+    omit?: Prisma.Order_itemOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.Order_itemInclude<ExtArgs> | null;
+    /**
+     * The filter to search for the Order_item to update in case it exists.
+     */
+    where: Prisma.Order_itemWhereUniqueInput;
+    /**
+     * In case the Order_item found by the `where` argument doesn't exist, create a new Order_item with this data.
+     */
+    create: Prisma.XOR<Prisma.Order_itemCreateInput, Prisma.Order_itemUncheckedCreateInput>;
+    /**
+     * In case the Order_item was found with the provided `where` argument, update it with this data.
+     */
+    update: Prisma.XOR<Prisma.Order_itemUpdateInput, Prisma.Order_itemUncheckedUpdateInput>;
+};
+/**
+ * Order_item delete
+ */
+export type Order_itemDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order_item
+     */
+    select?: Prisma.Order_itemSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Order_item
+     */
+    omit?: Prisma.Order_itemOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.Order_itemInclude<ExtArgs> | null;
+    /**
+     * Filter which Order_item to delete.
+     */
+    where: Prisma.Order_itemWhereUniqueInput;
+};
+/**
+ * Order_item deleteMany
+ */
+export type Order_itemDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Filter which Order_items to delete
+     */
+    where?: Prisma.Order_itemWhereInput;
+    /**
+     * Limit how many Order_items to delete.
+     */
+    limit?: number;
+};
+/**
+ * Order_item without action
+ */
+export type Order_itemDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order_item
+     */
+    select?: Prisma.Order_itemSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Order_item
+     */
+    omit?: Prisma.Order_itemOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.Order_itemInclude<ExtArgs> | null;
+};
+export {};
+//# sourceMappingURL=Order_item.d.ts.map

@@ -1,6 +1,6 @@
-import { UserRole } from "../../../generated/prisma/enums";
-import { auth } from "../../lib/auth";
-import { prisma } from "../../lib/prisma";
+import { UserRole } from "../../generated/prisma/client.js";
+import { auth } from "../../lib/auth.js";
+import { prisma } from "../../lib/prisma.js";
 
 // create Provider
 const createProvider = async (payload: {
