@@ -4,8 +4,27 @@ import { auth as betterAuth } from "../lib/auth.js";
 
 export const auth = (...roles: UserRole[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
+    // const session = await betterAuth.api.getSession({
+    //   headers: req.headers as any,
+    // });
+     const originalCookie = req.headers.cookie || "";
+    const normalizedCookie = originalCookie
+      .split(";")
+      .map((c) => c.trim())
+      .map((c) =>
+        c.startsWith("__Secure-session_token=")
+          ? c.replace("__Secure-session_token=", "session_token=")
+          : c
+      )
+      .join("; ");
+
+    const modifiedHeaders = {
+      ...req.headers,
+      cookie: normalizedCookie,
+    };
+
     const session = await betterAuth.api.getSession({
-      headers: req.headers as any,
+      headers: modifiedHeaders as any,
     });
 
     if (!session || !session.user) {
