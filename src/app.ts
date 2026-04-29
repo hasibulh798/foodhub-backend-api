@@ -39,7 +39,7 @@ app.use(
 );
 
 //better-auth-routes
-app.all('/api/auth/{*any}', toNodeHandler(auth));
+app.use("/api/auth", toNodeHandler(auth));
 
 
 //Get me
