@@ -15,6 +15,17 @@ export const transporter = nodemailer.createTransport({
   },
 });
 
+const FRONTEND_URLS = (process.env.FRONTEND_URL || "")
+  .split(",")
+  .map((u) => u.trim())
+  .filter(Boolean);
+
+  const trustedOrigins = [
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+  ...FRONTEND_URLS,
+]
+
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
@@ -43,12 +54,13 @@ export const auth = betterAuth({
     requireEmailVerification: true,
   },
   baseURL: process.env.BETTER_AUTH_URL!,
-  trustedOrigins: [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://192.168.0.101:3000",
-    ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(",").map((u) => u.trim()) : []),
-  ],
+  // trustedOrigins: [
+  //   "http://localhost:3000",
+  //   "http://127.0.0.1:3000",
+  //   "http://192.168.0.101:3000",
+  //   ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(",").map((u) => u.trim()) : []),
+  // ],
+  trustedOrigins,
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,

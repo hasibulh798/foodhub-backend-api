@@ -20,23 +20,52 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const FRONTEND_URLS = (process.env.FRONTEND_URL || "")
+  .split(",")
+  .map((u) => u.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-  origin: function (origin, callback) {
-    const allowed = [
-      /\.vercel\.app$/,          // all Vercel deployments
-      /^http:\/\/localhost/,     // local dev
-    ];
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
 
-    if (!origin || allowed.some(pattern => pattern.test(origin))) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+      const allowed =
+        /\.vercel\.app$/.test(origin) ||
+        /^https?:\/\/localhost/.test(origin) ||
+        /^https?:\/\/127\.0\.0\.1/.test(origin) ||
+        FRONTEND_URLS.includes(origin);
+
+      if (allowed) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS: origin '${origin}' not allowed`));
+      }
+    },
     credentials: true,
-  }),
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+  })
 );
+
+// app.use(
+//   cors({
+//   origin: function (origin, callback) {
+//     const allowed = [
+//       /\.vercel\.app$/,          // all Vercel deployments
+//       /^http:\/\/localhost/,     // local dev
+//     ];
+
+//     if (!origin || allowed.some(pattern => pattern.test(origin))) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//     credentials: true,
+//   }),
+// );
 
 //better-auth-routes
 app.use("/api/auth", toNodeHandler(auth));
