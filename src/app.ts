@@ -28,7 +28,7 @@ app.use(
 );
 
 //better-auth-routes
-app.all("/api/auth/{*any}", toNodeHandler(auth));
+app.all("/api/auth/*", toNodeHandler(auth));
 
 //Get me
 app.use("/auth/api", authRouter);

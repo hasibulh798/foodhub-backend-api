@@ -165,6 +165,7 @@ export const auth = betterAuth({
         },
       },
     },
+    trustHost: true,
   },
   plugins: [oAuthProxy()]
 });
