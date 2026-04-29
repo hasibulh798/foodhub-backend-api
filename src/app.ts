@@ -22,18 +22,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: (origin, callback) => {
-      const allowedOrigins = [
-        process.env.FRONTEND_URL,
-        process.env.CORS_ORIGIN,
-      ].flatMap((url) => (url ? url.split(",") : [])).map((url) => url.trim());
+  origin: function (origin, callback) {
+    const allowed = [
+      /\.vercel\.app$/,          // all Vercel deployments
+      /^http:\/\/localhost/,     // local dev
+    ];
 
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    if (!origin || allowed.some(pattern => pattern.test(origin))) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
     credentials: true,
   }),
 );
