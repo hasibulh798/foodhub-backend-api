@@ -31,7 +31,7 @@ The robust backend engine powering the Food Hub ecosystem. Built with a focus on
 
 ### 1. Clone & Install
 ```bash
-git clone <your-backend-repo-url>
+git clone https://github.com/hasibulh798/foodhub-backend-api
 cd Server
 npm install
 ```
