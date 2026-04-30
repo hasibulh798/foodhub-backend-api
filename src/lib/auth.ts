@@ -53,14 +53,9 @@ export const auth = betterAuth({
     autoSignIn: false,
     requireEmailVerification: true,
   },
-  baseURL: process.env.BETTER_AUTH_URL!,
-  // trustedOrigins: [
-  //   "http://localhost:3000",
-  //   "http://127.0.0.1:3000",
-  //   "http://192.168.0.101:3000",
-  //   ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(",").map((u) => u.trim()) : []),
-  // ],
-  trustedOrigins,
+  baseURL: process.env.FRONTEND_URL!,
+  trustedOrigins: [process.env.FRONTEND_URL!],
+  // trustedOrigins,
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
@@ -167,13 +162,20 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      accessType: "offline",
       prompt: "select_account consent",
     },
   },
   advanced: {
     cookies: {
       session_token: {
+        name: "session_token",
+        attributes: {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+        },
+      },
+      state: {
         name: "session_token",
         attributes: {
           httpOnly: true,
