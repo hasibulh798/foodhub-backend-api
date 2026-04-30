@@ -21,10 +21,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const FRONTEND_URLS = (process.env.FRONTEND_URL || "")
-  .split(",")
-  .map((u) => u.trim())
-  .filter(Boolean);
+// const FRONTEND_URLS = (process.env.FRONTEND_URL || "")
+//   .split(",")
+//   .map((u) => u.trim())
+//   .filter(Boolean);
 
 app.use(
   cors({
@@ -34,8 +34,7 @@ app.use(
       const allowed =
         /\.vercel\.app$/.test(origin) ||
         /^https?:\/\/localhost/.test(origin) ||
-        /^https?:\/\/127\.0\.0\.1/.test(origin) ||
-        FRONTEND_URLS.includes(origin);
+        /^https?:\/\/127\.0\.0\.1/.test(origin) 
 
       if (allowed) {
         callback(null, true);
