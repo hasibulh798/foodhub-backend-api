@@ -28,24 +28,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-
-      const allowed =
-        /\.vercel\.app$/.test(origin) ||
-        /^https?:\/\/localhost/.test(origin) ||
-        /^https?:\/\/127\.0\.0\.1/.test(origin) 
-
-      if (allowed) {
-        callback(null, true);
-      } else {
-        callback(new Error(`CORS: origin '${origin}' not allowed`));
-      }
-    },
+    origin: process.env.FRONTEND_URL || "http://localhost:3000", // ← frontend
     credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
-  })
+  }),
 );
 
 // app.use(

@@ -15,16 +15,6 @@ export const transporter = nodemailer.createTransport({
   },
 });
 
-const FRONTEND_URLS = (process.env.FRONTEND_URL || "")
-  .split(",")
-  .map((u) => u.trim())
-  .filter(Boolean);
-
-  const trustedOrigins = [
-  "http://localhost:3000",
-  "http://127.0.0.1:3000",
-  ...FRONTEND_URLS,
-]
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -53,9 +43,15 @@ export const auth = betterAuth({
     autoSignIn: false,
     requireEmailVerification: true,
   },
-  baseURL: process.env.FRONTEND_URL!,
-  trustedOrigins: [process.env.FRONTEND_URL!],
-  // trustedOrigins,
+  baseURL:
+    process.env.BETTER_AUTH_URL ||
+    process.env.APP_URL ||
+    "http://localhost:5000",
+  trustedOrigins: [
+    process.env.FRONTEND_URL || "http://localhost:3000",
+    "https://foodhub-frontend-1q87.vercel.app",
+    "https://foodhub-backend-api-production.up.railway.app",
+  ],
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
@@ -162,6 +158,7 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      redirectURI: `${process.env.FRONTEND_URL}/api/auth/callback/google`,
       prompt: "select_account consent",
     },
   },
