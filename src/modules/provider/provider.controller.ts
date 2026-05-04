@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { OrderStatus } from "../../generated/prisma/client.js";
+import { OrderStatus } from "@prisma/client";
 import { sendResponse } from "../../utils/sendResponse.js";
 import { providerService } from "./provider.service.js";
 

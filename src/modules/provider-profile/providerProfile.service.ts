@@ -1,4 +1,4 @@
-import { UserRole } from "../../generated/prisma/client.js";
+import { UserRole } from "@prisma/client";
 import { auth } from "../../lib/auth.js";
 import { prisma } from "../../lib/prisma.js";
 

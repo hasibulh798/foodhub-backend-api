@@ -1,4 +1,4 @@
-import { UserRole } from "../../generated/prisma/client.js";
+import { UserRole } from "@prisma/client";
 import { prisma } from "../../lib/prisma.js";
 
 const createReview = async (

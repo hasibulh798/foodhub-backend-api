@@ -3,7 +3,7 @@ import {
   OrderStatus,
   Prisma,
   UserRole,
-} from "../../generated/prisma/client.js";
+} from "@prisma/client";
 import { prisma } from "../../lib/prisma.js";
 
 // Create meal

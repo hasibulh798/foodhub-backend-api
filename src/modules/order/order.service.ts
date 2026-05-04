@@ -1,8 +1,8 @@
-import { OrderStatus } from "../../generated/prisma/client.js";
+import { OrderStatus } from "@prisma/client";
 import {
   PaymentMethod,
   UserRole
-} from "../../generated/prisma/client.js";
+} from "@prisma/client";
 import { prisma } from "../../lib/prisma.js";
 import { paymentService } from "../payment/payment.service.js";
 

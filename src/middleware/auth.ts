@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { fromNodeHeaders } from "better-auth/node";
-import { UserRole } from "../generated/prisma/client.js";
+import { UserRole } from "@prisma/client";
 import { auth as betterAuth } from "../lib/auth.js";
 
 export const auth = (...roles: UserRole[]) => {

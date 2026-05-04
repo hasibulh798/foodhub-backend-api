@@ -2,7 +2,7 @@ import {
   OrderStatus,
   UserRole,
   UserStatus,
-} from "../../generated/prisma/client.js";
+} from "@prisma/client";
 import { prisma } from "../../lib/prisma.js";
 
 // Provider Profile Verification
