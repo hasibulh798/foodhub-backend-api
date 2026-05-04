@@ -1,0 +1,121 @@
+import { DietaryType, OrderStatus, Prisma } from "../../generated/prisma/client.js";
+export declare const providerService: {
+    createMeal: (payload: {
+        categoryId: string;
+        name: string;
+        description: string;
+        price: Prisma.Decimal;
+        imageUrl: string;
+        isAvailable?: boolean;
+        cuisine?: string | undefined;
+        dietaryType?: DietaryType | undefined;
+    }, userId: string) => Promise<{
+        name: string;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        providerId: string;
+        categoryId: string;
+        description: string;
+        price: import("@prisma/client-runtime-utils").Decimal;
+        isAvailable: boolean;
+        imageUrl: string | null;
+        cuisine: string | null;
+        dietaryType: DietaryType | null;
+    }>;
+    getMyMeals: (userId: string) => Promise<{
+        name: string;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        providerId: string;
+        categoryId: string;
+        description: string;
+        price: import("@prisma/client-runtime-utils").Decimal;
+        isAvailable: boolean;
+        imageUrl: string | null;
+        cuisine: string | null;
+        dietaryType: DietaryType | null;
+    }[]>;
+    updateMeal: (payload: {
+        name: string;
+        description: string;
+        imageUrl: string;
+        price: Prisma.Decimal;
+        isAvailable: boolean;
+    }, mealId: string, userId: string) => Promise<{
+        name: string;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        providerId: string;
+        categoryId: string;
+        description: string;
+        price: import("@prisma/client-runtime-utils").Decimal;
+        isAvailable: boolean;
+        imageUrl: string | null;
+        cuisine: string | null;
+        dietaryType: DietaryType | null;
+    }>;
+    deleteMeal: (mealId: string, userId: string) => Promise<{
+        name: string;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        providerId: string;
+        categoryId: string;
+        description: string;
+        price: import("@prisma/client-runtime-utils").Decimal;
+        isAvailable: boolean;
+        imageUrl: string | null;
+        cuisine: string | null;
+        dietaryType: DietaryType | null;
+    }>;
+    updateOrderStatus: (orderId: string, userId: string, status: OrderStatus) => Promise<{
+        phone: string;
+        status: OrderStatus;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        providerId: string;
+        deliveryFee: import("@prisma/client-runtime-utils").Decimal;
+        totalAmount: import("@prisma/client-runtime-utils").Decimal;
+        subtotal: import("@prisma/client-runtime-utils").Decimal;
+        customerId: string;
+        transactionId: string | null;
+        paymentMethod: import("../../generated/prisma/enums.js").PaymentMethod;
+        paymentStatus: import("../../generated/prisma/enums.js").PaymentStatus;
+        deliveryAddress: string;
+    }>;
+    cancelOrder: (orderId: string, userId: string) => Promise<{
+        phone: string;
+        status: OrderStatus;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        providerId: string;
+        deliveryFee: import("@prisma/client-runtime-utils").Decimal;
+        totalAmount: import("@prisma/client-runtime-utils").Decimal;
+        subtotal: import("@prisma/client-runtime-utils").Decimal;
+        customerId: string;
+        transactionId: string | null;
+        paymentMethod: import("../../generated/prisma/enums.js").PaymentMethod;
+        paymentStatus: import("../../generated/prisma/enums.js").PaymentStatus;
+        deliveryAddress: string;
+    }>;
+    toggleMealAvailability: (mealId: string, userId: string) => Promise<{
+        name: string;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        providerId: string;
+        categoryId: string;
+        description: string;
+        price: import("@prisma/client-runtime-utils").Decimal;
+        isAvailable: boolean;
+        imageUrl: string | null;
+        cuisine: string | null;
+        dietaryType: DietaryType | null;
+    }>;
+};
+//# sourceMappingURL=provider.service.d.ts.map
