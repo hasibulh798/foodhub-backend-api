@@ -43,10 +43,13 @@ export const auth = betterAuth({
     autoSignIn: false,
     requireEmailVerification: true,
   },
+  // Must match the URL users use in the browser (Next app + /api rewrite), not only the API host,
+  // so Set-Cookie and OAuth redirects align with the session cookie domain.
   baseURL:
+    process.env.FRONTEND_URL?.replace(/\/$/, "") ||
     process.env.BETTER_AUTH_URL ||
     process.env.APP_URL ||
-    "http://localhost:5000",
+    "http://localhost:3000",
   trustedOrigins: [
     process.env.FRONTEND_URL || "http://localhost:3000",
     "https://*.vercel.app",
