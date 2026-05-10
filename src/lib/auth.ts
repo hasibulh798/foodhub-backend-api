@@ -49,8 +49,9 @@ export const auth = betterAuth({
     "http://localhost:5000",
   trustedOrigins: [
     process.env.FRONTEND_URL || "http://localhost:3000",
+    "https://*.vercel.app",
     "https://foodhub-frontend-1q87.vercel.app",
-    "https://foodhub-backend-api-production.up.railway.app",
+    "https://foodhub-frontend-lq87-p5zj1x7me.vercel.app",
   ],
   emailVerification: {
     sendOnSignUp: true,

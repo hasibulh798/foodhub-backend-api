@@ -22,30 +22,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
-    credentials: true,
-  }),
-);
+app.use(cors({
+  origin: true,
+  credentials: true,
+}))
 
-// app.use(
-//   cors({
-//   origin: function (origin, callback) {
-//     const allowed = [
-//       /\.vercel\.app$/,          // all Vercel deployments
-//       /^http:\/\/localhost/,     // local dev
-//     ];
+// Explicitly handle OPTIONS preflight requests for all routes
+app.options(/.*/, cors());
 
-//     if (!origin || allowed.some(pattern => pattern.test(origin))) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//     credentials: true,
-//   }),
-// );
+
 
 //better-auth-routes
 app.use("/api/auth", toNodeHandler(auth));
