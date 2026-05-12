@@ -18,31 +18,38 @@ import { reviewRoutes } from "./modules/review/review.route.js";
 const app = express();
 app.set("trust proxy", 1);
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
-
-app.use(cors({
-  origin: true,
+app.options("/{*path}", cors({
+  origin: process.env.FRONTEND_URL,
   credentials: true,
-}))
-
-// Explicitly handle OPTIONS preflight requests for all routes
-app.options(/.*/, cors());
-
-
+}));
 
 //better-auth-routes
 app.use("/api/auth", toNodeHandler(auth));
 
 
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 //Get me
 app.use("/auth/api", authRouter);
+
+
 // root route
 app.get("/", (_, res) => {
   res.send("Hello from the food hub api!");
 });
+
 
 // providerProfile routes
 app.use("/api/providers", providerProfileRoutes);

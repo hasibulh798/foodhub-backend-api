@@ -46,12 +46,9 @@ export const auth = betterAuth({
   // Must match the URL users use in the browser (Next app + /api rewrite), not only the API host,
   // so Set-Cookie and OAuth redirects align with the session cookie domain.
   baseURL:
-    process.env.FRONTEND_URL?.replace(/\/$/, "") ||
-    process.env.BETTER_AUTH_URL ||
-    process.env.APP_URL ||
-    "http://localhost:3000",
+    process.env.BETTER_AUTH_URL,
   trustedOrigins: [
-    process.env.FRONTEND_URL || "http://localhost:3000",
+    process.env.FRONTEND_URL!,
     "https://*.vercel.app",
     "https://foodhub-frontend-1q87.vercel.app",
     "https://foodhub-frontend-lq87-p5zj1x7me.vercel.app",
@@ -157,16 +154,19 @@ export const auth = betterAuth({
       }
     },
   },
-
+  secret: process.env.BETTER_AUTH_SECRET!,
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: `${process.env.FRONTEND_URL}/api/auth/callback/google`,
+       redirectURI: `${process.env.BETTER_AUTH_URL}/api/auth/callback/google`,
       prompt: "select_account consent",
     },
   },
-  advanced: {
+  advanced: {    
+    crossSubdomainCookies: {
+      enabled: false,
+    },
     cookies: {
       session_token: {
         name: "session_token",
@@ -174,6 +174,7 @@ export const auth = betterAuth({
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          path: "/",
         },
       },
     },
