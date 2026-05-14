@@ -13,6 +13,7 @@ import { paymentRoutes } from "./modules/payment/payment.route.js";
 import { providerProfileRoutes } from "./modules/provider-profile/providerProfile.route.js";
 import { ProviderRoutes } from "./modules/provider/provider.route.js";
 import { reviewRoutes } from "./modules/review/review.route.js";
+import { chatbotRoutes } from "./modules/chatbot/chatbot.route.js";
 
 
 const app = express();
@@ -74,6 +75,9 @@ app.use("/api/provider", ProviderRoutes);
 
 // Payment routes
 app.use("/api/payment", paymentRoutes);
+
+// Chatbot routes
+app.use("/api/chatbot", chatbotRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

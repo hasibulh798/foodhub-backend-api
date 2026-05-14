@@ -78,7 +78,7 @@ const getSingleProvider = async (req: Request, res: Response) => {
     }
     return sendResponse({
       res,
-      statusCode: 201,
+      statusCode: 200,
       success: true,
       message: "Provider retrived successfully",
       data: result,
