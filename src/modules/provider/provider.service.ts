@@ -1,19 +1,19 @@
 import {
-  DietaryType,
-  OrderStatus,
   Prisma,
   UserRole,
+  DietaryType,
+  OrderStatus,
 } from "@prisma/client";
 import { prisma } from "../../lib/prisma.js";
 
 // Create meal
 const createMeal = async (
   payload: {
-    categoryId: string;
     name: string;
     description: string;
     price: Prisma.Decimal;
-    imageUrl: string;
+    images: string[];
+    categoryId: string;
     isAvailable?: boolean;
     cuisine?: string | undefined;
     dietaryType?: DietaryType | undefined;
@@ -25,7 +25,7 @@ const createMeal = async (
     description,
     price,
     categoryId,
-    imageUrl,
+    images,
     cuisine,
     dietaryType,
   } = payload;
@@ -54,7 +54,7 @@ const createMeal = async (
       name,
       description,
       price,
-      imageUrl,
+      images,
       categoryId,
       isAvailable: payload.isAvailable ?? true,
       cuisine: cuisine ?? null,
@@ -63,8 +63,6 @@ const createMeal = async (
     },
   });
 
-  // console.log("after result");
-  // console.log(result);
   return result;
 };
 
@@ -91,9 +89,12 @@ const updateMeal = async (
   payload: {
     name: string;
     description: string;
-    imageUrl: string;
+    images?: string[];
     price: Prisma.Decimal;
     isAvailable: boolean;
+    categoryId?: string;
+    cuisine?: string;
+    dietaryType?: DietaryType;
   },
   mealId: string,
   userId: string,
@@ -114,6 +115,9 @@ const updateMeal = async (
   if (provider.user?.role !== UserRole.PROVIDER) {
     throw new Error("Permission denied!");
   }
+  
+  const { name, description, images, price, isAvailable, categoryId, cuisine, dietaryType } = payload;
+
   const meal = await prisma.meal.findUnique({
     where: {
       id: mealId,
@@ -122,11 +126,21 @@ const updateMeal = async (
   if (!meal) {
     throw new Error("Meal not found");
   }
+
   const result = await prisma.meal.update({
     where: {
       id: mealId,
     },
-    data: payload,
+    data: {
+      ...(name && { name }),
+      ...(description && { description }),
+      ...(price && { price }),
+      ...(isAvailable !== undefined && { isAvailable }),
+      ...(categoryId && { categoryId }),
+      ...(cuisine && { cuisine }),
+      ...(dietaryType && { dietaryType }),
+      ...(images && { images: { set: images } }),
+    },
   });
   return result;
 };
@@ -135,24 +149,26 @@ const updateMeal = async (
 // Delete meal
 const deleteMeal = async (mealId: string, userId: string) => {
   const provider = await prisma.provider_profile.findUnique({
-    where: {
-      userId,
-    },
-    include: {
-      user: true,
-    },
+    where: { userId },
+    include: { user: true },
   });
 
   if (provider?.user.role !== UserRole.PROVIDER) {
     throw new Error("You are not provider!");
   }
 
-  const result = await prisma.meal.delete({
-    where: {
-      id: mealId,
-    },
-  });
-  return result;
+  const meal = await prisma.meal.findUnique({ where: { id: mealId } });
+  if (!meal || meal.providerId !== provider.id) {
+    throw new Error("Meal not found or unauthorized");
+  }
+
+  const result = await prisma.$transaction([
+    prisma.review.deleteMany({ where: { mealId } }),
+    prisma.order_item.deleteMany({ where: { mealId } }),
+    prisma.meal.delete({ where: { id: mealId } })
+  ]);
+  
+  return result[2];
 };
 
 //Update Order Status

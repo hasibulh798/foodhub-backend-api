@@ -11,6 +11,15 @@ import { providerService } from "./provider.service.js";
 const createMeal = async (req: Request, res: Response) => {
   try {
     const userId = req.user?.id;
+    
+    // Extract Cloudinary URLs from uploaded files
+    const images = (req.files as Express.Multer.File[])?.map(file => file.path) || [];
+    req.body.images = images;
+
+    if (req.body.isAvailable !== undefined) {
+      req.body.isAvailable = String(req.body.isAvailable) === 'true';
+    }
+    
     const result = await providerService.createMeal(req.body, userId as string);
 
     return sendResponse({
@@ -57,6 +66,29 @@ const updateMeal = async (req: Request, res: Response) => {
   try {
     const { mealId } = req.params;
     const userId = req.user?.id;
+
+    // Extract Cloudinary URLs from uploaded files if any
+    const uploadedImages = (req.files as Express.Multer.File[])?.map(file => file.path) || [];
+    
+    // Parse existingImages from body (could be string or array of strings)
+    let existingImages: string[] = [];
+    if (req.body.existingImages) {
+      if (Array.isArray(req.body.existingImages)) {
+        existingImages = req.body.existingImages;
+      } else {
+        existingImages = [req.body.existingImages];
+      }
+    }
+
+    // Combine existing (kept) images with newly uploaded ones
+    if (uploadedImages.length > 0 || req.body.existingImages !== undefined) {
+      req.body.images = [...existingImages, ...uploadedImages];
+    }
+
+    if (req.body.isAvailable !== undefined) {
+      req.body.isAvailable = String(req.body.isAvailable) === 'true';
+    }
+
     const result = await providerService.updateMeal(
       req.body,
       mealId as string,

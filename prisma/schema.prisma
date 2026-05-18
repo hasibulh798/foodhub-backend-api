@@ -44,7 +44,7 @@ model Meal {
   description String
   price       Decimal          @db.Decimal(10, 2)
   isAvailable Boolean          @default(true)
-  imageUrl    String?
+  images      String[]
   cuisine     String?
   dietaryType DietaryType? 
   createdAt   DateTime         @default(now())

@@ -5,52 +5,7 @@ import {
 } from "@prisma/client";
 import { prisma } from "../../lib/prisma.js";
 
-// Create meal
-const createMeal = async (
-  payload: {
-    categoryId: string;
-    name: string;
-    description: string;
-    price: Prisma.Decimal;
-    imageUrl: string;
-  },
-  userId: string,
-) => {
-  const { name, description, price, categoryId, imageUrl } = payload;
 
-  const provider = await prisma.provider_profile.findUnique({
-    where: {
-      userId,
-    },
-    include: {
-      user: true,
-    },
-  });
-  // console.log(provider);
-  if (!provider) {
-    throw new Error("You are not provider!");
-  }
-
-  if (provider.user?.role !== UserRole.PROVIDER) {
-    throw new Error("Permission denied!");
-  }
-  // console.log("before result");
-  // console.log(payload);
-  const result = await prisma.meal.create({
-    data: {
-      providerId: provider.id,
-      categoryId,
-      name,
-      description,
-      price,
-      imageUrl,
-    },
-  });
-
-  // console.log("after result");
-  // console.log(result);
-  return result;
-};
 
 // Get all meals
 const getAllMeals = async (filter?: {
@@ -206,6 +161,7 @@ const getSingleMeal = async (mealId: string) => {
     },
     include: {
       provider: true,
+      category: true,
       order_items: true,
       reviews: {
         select: {
@@ -223,80 +179,8 @@ const getSingleMeal = async (mealId: string) => {
   return result;
 };
 
-// //Update meal
-// const updateMeal = async (
-//   payload: {
-//     name: string;
-//     description: string;
-//     imageUrl: string;
-//     price: Prisma.Decimal;
-//     isAvailable: boolean;
-//   },
-//   mealId: string,
-//   userId: string,
-// ) => {
-//   const { name, description, imageUrl, price, isAvailable } = payload;
-
-//   const provider = await prisma.provider_profile.findUnique({
-//     where: {
-//       userId,
-//     },
-//     include: {
-//       user: true,
-//     },
-//   });
-
-//   if (!provider) {
-//     throw new Error("You are not provider!");
-//   }
-
-//   if (provider.user?.role !== UserRole.PROVIDER) {
-//     throw new Error("Permission denied!");
-//   }
-//   const meal = await prisma.meal.findUnique({
-//     where: {
-//       id: mealId,
-//     },
-//   });
-//   if (!meal) {
-//     throw new Error("Meal not found");
-//   }
-//   const result = await prisma.meal.update({
-//     where: {
-//       id: mealId,
-//     },
-//     data: payload,
-//   });
-//   return result;
-// };
-
-// // Delete meal
-// const deleteMeal = async (mealId: string, userId: string) => {
-//   const provider = await prisma.provider_profile.findUnique({
-//     where: {
-//       userId,
-//     },
-//     include: {
-//       user: true,
-//     },
-//   });
-
-//   if (provider?.user.role !== UserRole.PROVIDER) {
-//     throw new Error("You are not provider!");
-//   }
-
-//   const result = await prisma.meal.delete({
-//     where: {
-//       id: mealId,
-//     },
-//   });
-//   return result;
-// };
 
 export const mealService = {
-  // createMeal,
   getAllMeals,
   getSingleMeal,
-  // updateMeal,
-  // deleteMeal,
 };
