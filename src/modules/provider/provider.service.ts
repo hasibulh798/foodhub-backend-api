@@ -47,6 +47,10 @@ const createMeal = async (
     throw new Error("Permission denied! You are not a provider.");
   }
 
+  if (!provider.isVerified) {
+    throw new Error("Your restaurant profile is not verified yet. You cannot add meals.");
+  }
+
   // console.log("before result");
   // console.log(payload);
   const result = await prisma.meal.create({
