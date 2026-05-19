@@ -119,6 +119,48 @@ const deleteUser = async (userId: string) => {
     throw new Error("User not found");
   }
 
+  if (user.role === "ADMIN") {
+    throw new Error("Cannot delete admin users");
+  }
+
+  // If user is a provider, we might want to prevent deletion if they have active profiles
+  // For now, let's focus on customers as requested by frontend usage
+
+  // 1. Delete reviews by this user
+  await prisma.review.deleteMany({
+    where: {
+      customerId: userId,
+    },
+  });
+
+  // 2. Delete order items of orders by this user
+  const userOrders = await prisma.order.findMany({
+    where: {
+      customerId: userId,
+    },
+    select: {
+      id: true,
+    },
+  });
+  
+  const orderIds = userOrders.map((o) => o.id);
+
+  await prisma.order_item.deleteMany({
+    where: {
+      orderId: {
+        in: orderIds,
+      },
+    },
+  });
+
+  // 3. Delete orders by this user
+  await prisma.order.deleteMany({
+    where: {
+      customerId: userId,
+    },
+  });
+
+  // 4. Delete the user (accounts and sessions will be deleted via cascade in schema)
   const result = await prisma.user.delete({
     where: {
       id: userId,
