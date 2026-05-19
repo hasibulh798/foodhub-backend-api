@@ -4,7 +4,11 @@ import { categoryService } from "./categories.service.js";
 // Create category
 const createCategory = async (req: Request, res: Response) => {
   try {
-    const result = await categoryService.createCategory(req.body);
+    const payload = { ...req.body };
+    if (req.file) {
+      payload.iconUrl = req.file.path;
+    }
+    const result = await categoryService.createCategory(payload);
 
     if (result === null) {
       return res.status(404).json({
@@ -106,8 +110,12 @@ const updateCategory = async (req: Request, res: Response) => {
   try {
     const { catId } = req.params;
     const userId = req.user?.id;
+    const payload = { ...req.body };
+    if (req.file) {
+      payload.iconUrl = req.file.path;
+    }
     const result = await categoryService.updateCategory(
-      req.body,
+      payload,
       catId as string,
       userId as string,
     );
