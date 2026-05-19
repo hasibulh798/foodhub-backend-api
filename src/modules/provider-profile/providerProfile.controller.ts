@@ -5,7 +5,17 @@ import { providerProfileServices } from "./providerProfile.service.js";
 // create provider
 const createProvider = async (req: Request, res: Response) => {
   try {
-    const result = await providerProfileServices.createProvider(req.body);
+    const payload = { ...req.body };
+    
+    if (payload.deliveryFee) {
+      payload.deliveryFee = Number(payload.deliveryFee);
+    }
+    
+    if (req.file) {
+      payload.logoUrl = req.file.path;
+    }
+
+    const result = await providerProfileServices.createProvider(payload);
     if (!result) {
       return sendResponse({
         res,

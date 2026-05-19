@@ -3,11 +3,12 @@ import { UserRole } from "@prisma/client";
 
 import { auth } from "../../middleware/auth.js";
 import { providerProfileController } from "./providerProfile.controller.js";
+import { upload } from "../../middleware/upload.middleware.js";
 
 const router = Router();
 
 // create provider
-router.post("/", providerProfileController.createProvider);
+router.post("/", upload.single('logo'), providerProfileController.createProvider);
 router.get("/", providerProfileController.getAllProvider);
 
 // Provider specific profile routes
